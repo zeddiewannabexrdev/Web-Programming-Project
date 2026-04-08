@@ -12,7 +12,7 @@ Website Project
 
 
 ## Technology, Tools and Plugin Used
-+ Visual Studio 2019
++ Visual Studio 2026
 + C#
 + ASP.NET Framework
 + Bootstrap
