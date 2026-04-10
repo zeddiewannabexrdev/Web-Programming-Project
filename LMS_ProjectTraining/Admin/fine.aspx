@@ -1,4 +1,4 @@
-﻿<%@ Page Title="fine details" Language="C#" MasterPageFile="~/Admin/AdminSite.Master" AutoEventWireup="true" CodeBehind="fine.aspx.cs" Inherits="LMS_ProjectTraining.Admin.fine" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/AdminSite.Master" AutoEventWireup="true" CodeBehind="fine.aspx.cs" Inherits="LMS_ProjectTraining.Admin.fine" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <script src="../datatable/js/jquery.dataTables.min.js"></script>
 
@@ -13,7 +13,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h2>Fine Payment Details</h2>
+                <h2><%= LMS_ProjectTraining.LanguageHelper.Get("fine_heading") %></h2>
                 <hr />
                 <asp:GridView class="table table-striped table-bordered" ID="GridView1" runat="server"></asp:GridView>
             </div>

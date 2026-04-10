@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -25,6 +25,7 @@ namespace LMS_ProjectTraining.UserScreen
                 {
                     BindGridData();
                 }
+                GridView1.EmptyDataText = "<center><b>" + LanguageHelper.Get("no_data_fines") + "</b></center>";
             }
         }
         private void BindGridData()

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -27,7 +27,7 @@ namespace LMS_ProjectTraining
             //how to insert or signup button code
             if (checkDuplicationMemberExist())
             {
-                Response.Write("<script>alert('Member already exist with this ID and email');</script>");
+                Response.Write("<script>alert('Th\u00e0nh vi\u00ean \u0111\u00e3 t\u1ed3n t\u1ea1i v\u1edbi ID v\u00e0 email n\u00e0y');</script>");
             }
             else
             {
@@ -48,19 +48,19 @@ namespace LMS_ProjectTraining
             cmd.Parameters.AddWithValue("@city", txtCity.Text);
             cmd.Parameters.AddWithValue("@pincode", txtPIN.Text);
             cmd.Parameters.AddWithValue("@full_address", txtAddress.Text);
-            cmd.Parameters.AddWithValue("@member_id", txtMemberID.Text);
+            cmd.Parameters.AddWithValue("@member_id", int.TryParse(txtMemberID.Text, out int mid) ? mid : 0);
             cmd.Parameters.AddWithValue("@password", txtPassword.Text);
             cmd.Parameters.AddWithValue("@account_status", "pending");
             if(cmd.ExecuteNonQuery()==1)
             {
-                //Response.Write("<script>alert('account created successfully');</script>");
-                ClientScript.RegisterClientScriptBlock(this.GetType(),"alert","swal('Success','Account created successfully','success')",true);
+                //Response.Write("<script>alert('T\u1ea1o t\u00e0i kho\u1ea3n th\u00e0nh c\u00f4ng');</script>");
+                ClientScript.RegisterClientScriptBlock(this.GetType(),"alert","swal('Success','T\u1ea1o t\u00e0i kho\u1ea3n th\u00e0nh c\u00f4ng','success')",true);
                 clrcontrol();
                 Autogenrate();
             }
             else
             {                 
-                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Error','Error! record not inserted ...try again','error')", true);
+                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('L\u1ed7i','L\u1ed7i! kh\u00f4ng th\u1ec3 th\u00eam b\u1ea3n ghi...vui l\u00f2ng th\u1eed l\u1ea1i','error')", true);
             }
             dbcon.CloseCon();           
 
@@ -70,7 +70,7 @@ namespace LMS_ProjectTraining
         {
             cmd = new SqlCommand("sp_CheckDuplicateMember", dbcon.GetCon());
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@member_id", txtMemberID.Text.Trim());
+            cmd.Parameters.AddWithValue("@member_id", int.TryParse(txtMemberID.Text.Trim(), out int mid) ? mid : 0);
             cmd.Parameters.AddWithValue("@email", txtEmail.Text.Trim());
             dbcon.OpenCon();
             SqlDataAdapter da = new SqlDataAdapter(cmd);

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -24,6 +24,7 @@ namespace LMS_ProjectTraining.Admin
                 Bind_Author_Publisher();
                 BindGridData();
             }
+            GridView1.EmptyDataText = "<center><b>" + LMS_ProjectTraining.LanguageHelper.Get("no_data_books") + "</b></center>";
         }
 
         private void Bind_Author_Publisher()
@@ -48,7 +49,7 @@ namespace LMS_ProjectTraining.Admin
             
             if(checkDuplicateBook())
             {                
-                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Error','Error! Book Already Exists ...try some other Book ID','error')", true);
+                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('L\u1ed7i','S\u00e1ch \u0111\u00e3 t\u1ed3n t\u1ea1i...vui l\u00f2ng d\u00f9ng m\u00e3 s\u00e1ch kh\u00e1c','error')", true);
             }
             else
             {
@@ -62,7 +63,7 @@ namespace LMS_ProjectTraining.Admin
             cmd = new SqlCommand("spgetBookBYID", dbcon.GetCon());
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Clear();
-            cmd.Parameters.AddWithValue("@book_id", txtBookID.Text.Trim());
+            cmd.Parameters.AddWithValue("@book_id", int.TryParse(txtBookID.Text.Trim(), out int bid) ? bid : 0);
             DataTable dt2 = new DataTable();
             dt2 = dbcon.Load_Data(cmd);
             if (dt2.Rows.Count >= 1)
@@ -80,7 +81,7 @@ namespace LMS_ProjectTraining.Admin
             if(checkDuplicateBook())
                 UpdateBooks();
             else
-                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Error','Invalid Book ID','error')", true);
+                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Error','M\u00e3 s\u00e1ch kh\u00f4ng h\u1ee3p l\u1ec7','error')", true);
         }
 
         protected void btnDelete_Click(object sender, EventArgs e)
@@ -88,7 +89,7 @@ namespace LMS_ProjectTraining.Admin
             if (checkDuplicateBook())
                 DeleteBooks();
             else
-                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Error','Invalid Book ID','error')", true);
+                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Error','M\u00e3 s\u00e1ch kh\u00f4ng h\u1ee3p l\u1ec7','error')", true);
         }
 
         protected void btnGo_Click(object sender, EventArgs e)
@@ -118,11 +119,11 @@ namespace LMS_ProjectTraining.Admin
             cmd.Parameters.AddWithValue("@book_img_link", filepath);
             if (dbcon.InsertUpdateData(cmd))
             {
-                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Success','Books Addedd Successfully','success')", true);
+                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Th\u00e0nh c\u00f4ng','Th\u00eam s\u00e1ch th\u00e0nh c\u00f4ng','success')", true);
             }
             else
             {
-                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Error','Error! record not Inserted ...try again','error')", true);
+                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('L\u1ed7i','L\u1ed7i! kh\u00f4ng th\u1ec3 th\u00eam b\u1ea3n ghi...vui l\u00f2ng th\u1eed l\u1ea1i','error')", true);
             }
             ClearControl();
             Autogenrate();
@@ -139,7 +140,7 @@ namespace LMS_ProjectTraining.Admin
             {
                 if(A_stock < actual_stock  )
                 {                    
-                    ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Error','Error! Actual stock value cannot be less than the issued books','error')", true);
+                    ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('L\u1ed7i','S\u1ed1 l\u01b0\u1ee3ng t\u1ed3n kho kh\u00f4ng th\u1ec3 nh\u1ecf h\u01a1n s\u1ed1 s\u00e1ch \u0111\u00e3 cho m\u01b0\u1ee3n','error')", true);
                     return;
                 }
                 else
@@ -175,7 +176,7 @@ namespace LMS_ProjectTraining.Admin
             //AddParameter();
             cmd.Parameters.Clear();
             cmd.Parameters.AddWithValue("@StatementType", "Update");
-            cmd.Parameters.AddWithValue("@book_id", txtBookID.Text);
+            cmd.Parameters.AddWithValue("@book_id", int.Parse(txtBookID.Text));
             cmd.Parameters.AddWithValue("@book_name", txtBookName.Text);
             cmd.Parameters.AddWithValue("@author_name", ddlAuthor.SelectedItem.Text);
             cmd.Parameters.AddWithValue("@publisher_name", ddlPublisherName.SelectedItem.Text);
@@ -186,16 +187,16 @@ namespace LMS_ProjectTraining.Admin
             cmd.Parameters.AddWithValue("@no_of_pages", txtPages.Text);
             cmd.Parameters.AddWithValue("@book_description", txtBookDesc.Text);
             cmd.Parameters.AddWithValue("@genre", genres);
-            cmd.Parameters.AddWithValue("@actual_stock", A_stock.ToString());
-            cmd.Parameters.AddWithValue("@current_stock", C_stock.ToString());
+            cmd.Parameters.AddWithValue("@actual_stock", A_stock);
+            cmd.Parameters.AddWithValue("@current_stock", C_stock);
             cmd.Parameters.AddWithValue("@book_img_link", F_path);
             if (dbcon.InsertUpdateData(cmd))
             {
-                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Success','Books Updated Successfully','success')", true);
+                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Th\u00e0nh c\u00f4ng','C\u1eadp nh\u1eadt s\u00e1ch th\u00e0nh c\u00f4ng','success')", true);
             }
             else
             {
-                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Error','Error! record not Updated ...try again','error')", true);
+                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('L\u1ed7i','L\u1ed7i! kh\u00f4ng th\u1ec3 c\u1eadp nh\u1eadt...vui l\u00f2ng th\u1eed l\u1ea1i','error')", true);
             }
             ClearControl();
             Autogenrate();
@@ -207,14 +208,14 @@ namespace LMS_ProjectTraining.Admin
             cmd.CommandType = System.Data.CommandType.StoredProcedure;            
             cmd.Parameters.Clear();
             cmd.Parameters.AddWithValue("@StatementType", "Delete");
-            cmd.Parameters.AddWithValue("@book_id", txtBookID.Text.Trim());
+            cmd.Parameters.AddWithValue("@book_id", int.TryParse(txtBookID.Text.Trim(), out int bid) ? bid : 0);
             if (dbcon.InsertUpdateData(cmd))
             {
-                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Success','Books Deleted Successfully','success')", true);
+                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Th\u00e0nh c\u00f4ng','X\u00f3a s\u00e1ch th\u00e0nh c\u00f4ng','success')", true);
             }
             else
             {
-                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Error','Error! record not Deleted ...try again','error')", true);
+                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('L\u1ed7i','L\u1ed7i! kh\u00f4ng th\u1ec3 x\u00f3a...vui l\u00f2ng th\u1eed l\u1ea1i','error')", true);
             }
             ClearControl();
             Autogenrate();
@@ -255,7 +256,7 @@ namespace LMS_ProjectTraining.Admin
         public void AddParameter()
         {
             cmd.Parameters.Clear();
-            cmd.Parameters.AddWithValue("@book_id", txtBookID.Text);
+            cmd.Parameters.AddWithValue("@book_id", int.TryParse(txtBookID.Text, out int bid) ? bid : 0);
             cmd.Parameters.AddWithValue("@book_name", txtBookName.Text);
             cmd.Parameters.AddWithValue("@author_name", ddlAuthor.SelectedItem.Text);
             cmd.Parameters.AddWithValue("@publisher_name", ddlPublisherName.SelectedItem.Text);
@@ -265,15 +266,15 @@ namespace LMS_ProjectTraining.Admin
             cmd.Parameters.AddWithValue("@book_cost", txtbookCost.Text);
             cmd.Parameters.AddWithValue("@no_of_pages", txtPages.Text);
             cmd.Parameters.AddWithValue("@book_description", txtBookDesc.Text);
-            cmd.Parameters.AddWithValue("@actual_stock", txtActualStock.Text);
-            cmd.Parameters.AddWithValue("@current_stock", txtActualStock.Text);
+            cmd.Parameters.AddWithValue("@actual_stock", int.TryParse(txtActualStock.Text, out int aStock) ? aStock : 0);
+            cmd.Parameters.AddWithValue("@current_stock", int.TryParse(txtActualStock.Text, out int cStock) ? cStock : 0);
         }
         private void SearchBooks()
         {
             cmd = new SqlCommand("spgetBookBYID", dbcon.GetCon());
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Clear();            
-            cmd.Parameters.AddWithValue("@book_id", txtBookID.Text.Trim());
+            cmd.Parameters.AddWithValue("@book_id", int.TryParse(txtBookID.Text.Trim(), out int bid) ? bid : 0);
             DataTable dt2 = new DataTable();
             dt2 = dbcon.Load_Data(cmd);
             if (dt2.Rows.Count >= 1)
@@ -317,7 +318,7 @@ namespace LMS_ProjectTraining.Admin
             }
             else
             {
-                Response.Write("<script>alert('Invalid Book ID');</script>");
+                Response.Write("<script>alert('M\u00e3 s\u00e1ch kh\u00f4ng h\u1ee3p l\u1ec7');</script>");
                 ClearControl();
             }
         }

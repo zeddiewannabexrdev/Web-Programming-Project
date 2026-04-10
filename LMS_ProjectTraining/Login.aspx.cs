@@ -29,7 +29,7 @@ namespace LMS_ProjectTraining
             {
                 while(dr.Read())
                 {
-                    Response.Write("<script> alert('Login Successfully');</script>");
+                    Response.Write("<script> alert('\u0110\u0103ng nh\u1eadp th\u00e0nh c\u00f4ng');</script>");
                     Session["role"] = "user";
                     Session["fullname"] = dr.GetValue(0).ToString();
                     Session["username"] = dr.GetValue(1).ToString();
@@ -41,7 +41,7 @@ namespace LMS_ProjectTraining
             else
             {
                 
-                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Error','Error! Invalid credentials...try again','error')", true);
+                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('L\u1ed7i','L\u1ed7i! Th\u00f4ng tin \u0111\u0103ng nh\u1eadp kh\u00f4ng h\u1ee3p l\u1ec7','error')", true);
             }
         }
 
@@ -59,7 +59,7 @@ namespace LMS_ProjectTraining
                 while (dr.Read())
                 {
                     
-                    ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Success','Login Successfully','success')", true);
+                    ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Success','\u0110\u0103ng nh\u1eadp th\u00e0nh c\u00f4ng','success')", true);
                     Session["Adminrole"] = "Admin";
                     Session["Adminusername"] = dr.GetValue(0).ToString();
                     Session["Adminfullname"] = dr.GetValue(2).ToString();
@@ -70,7 +70,7 @@ namespace LMS_ProjectTraining
             }
             else
             {                
-                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Error','Invalid credentials...try again','error')", true);
+                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('L\u1ed7i','Th\u00f4ng tin \u0111\u0103ng nh\u1eadp kh\u00f4ng h\u1ee3p l\u1ec7','error')", true);
             }
         }
     }

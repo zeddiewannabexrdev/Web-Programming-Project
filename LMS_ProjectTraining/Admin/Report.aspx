@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Report" Language="C#" MasterPageFile="~/Admin/AdminSite.Master" AutoEventWireup="true" CodeBehind="Report.aspx.cs" Inherits="LMS_ProjectTraining.Admin.Report" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/AdminSite.Master" AutoEventWireup="true" CodeBehind="Report.aspx.cs" Inherits="LMS_ProjectTraining.Admin.Report" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <script src="../datatable/js/jquery.dataTables.min.js"></script>
 
@@ -25,8 +25,8 @@
                         <div class="row">
                             <div class="col">
                                 <center>
-                                    <h4>Your Issued Books</h4>
-                                    <asp:Label class="badge badge-pill badge-info" ID="Label2" runat="server" Text="your books info"></asp:Label>
+                                    <h4><%= LMS_ProjectTraining.LanguageHelper.Get("report_heading") %></h4>
+                                    <asp:Label class="badge badge-pill badge-info" ID="Label2" runat="server" Text='<%# LMS_ProjectTraining.LanguageHelper.Get("report_sub") %>'></asp:Label>
                                 </center>
                             </div>
                         </div>

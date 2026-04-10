@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -16,9 +16,29 @@ namespace LMS_ProjectTraining.Admin
         SqlCommand cmd;
         protected void Page_Load(object sender, EventArgs e)
         {
-            if(!this.IsPostBack)
+            if(!IsPostBack)
             {
-                BindGridview();                
+               BindGridview();
+            }
+            
+            // Translate Buttons
+            btnSearchMember.Text = LanguageHelper.Get("btn_search");
+            BtnActiveMember.Text = LanguageHelper.Get("btn_active");
+            btnPendingMember.Text = LanguageHelper.Get("btn_pending");
+            btnDeactiveMember.Text = LanguageHelper.Get("btn_deactive");
+            
+            // Translate GridView Headers
+            if (GridView1.Columns.Count > 0)
+            {
+                GridView1.Columns[0].HeaderText = LanguageHelper.Get("lbl_member_id");
+                GridView1.Columns[1].HeaderText = LanguageHelper.Get("lbl_fullname");
+                GridView1.Columns[2].HeaderText = LanguageHelper.Get("lbl_dob");
+                GridView1.Columns[3].HeaderText = LanguageHelper.Get("lbl_contact");
+                GridView1.Columns[4].HeaderText = LanguageHelper.Get("lbl_email");
+                GridView1.Columns[5].HeaderText = LanguageHelper.Get("lbl_state");
+                GridView1.Columns[6].HeaderText = LanguageHelper.Get("lbl_city");
+                GridView1.Columns[7].HeaderText = LanguageHelper.Get("lbl_pin");
+                GridView1.Columns[8].HeaderText = LanguageHelper.Get("lbl_address");
             }
         }
 
@@ -42,7 +62,7 @@ namespace LMS_ProjectTraining.Admin
         {
             cmd = new SqlCommand("sp_getMemberByID", dbcon.GetCon());
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@id", txtMemberID.Text.Trim());
+            cmd.Parameters.AddWithValue("@member_id", int.TryParse(txtMemberID.Text.Trim(), out int mid) ? mid : 0);
             dbcon.OpenCon();
             SqlDataReader dr = cmd.ExecuteReader();
             if (dr.HasRows)
@@ -61,7 +81,7 @@ namespace LMS_ProjectTraining.Admin
             }
             else
             {
-                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Error','Record not found...try again','error')", true);
+                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('L\u1ed7i','Kh\u00f4ng t\u00ecm th\u1ea5y b\u1ea3n ghi...vui l\u00f2ng th\u1eed l\u1ea1i','error')", true);
             }
             dbcon.CloseCon();
         }
@@ -74,7 +94,7 @@ namespace LMS_ProjectTraining.Admin
             }
             else
             {
-                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Error','Validation error...try again','error')", true);
+                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('L\u1ed7i','L\u1ed7i x\u00e1c th\u1ef1c...vui l\u00f2ng th\u1eed l\u1ea1i','error')", true);
             }
         }
 
@@ -85,23 +105,23 @@ namespace LMS_ProjectTraining.Admin
                 SqlCommand cmd = new SqlCommand("sp_UpdateMemberStatus_ByID", dbcon.GetCon());
                 cmd.Parameters.Clear();
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@id", txtMemberID.Text.Trim());
-                cmd.Parameters.AddWithValue("@qrType", varStatus);
+                cmd.Parameters.AddWithValue("@member_id", int.TryParse(txtMemberID.Text.Trim(), out int mid) ? mid : 0);
+                cmd.Parameters.AddWithValue("@account_status", varStatus);
                 dbcon.OpenCon();
                 if (cmd.ExecuteNonQuery() > 0)
                 {
-                    ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Success','Member status updated','success')", true);
+                    ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Th\u00e0nh c\u00f4ng','Tr\u1ea1ng th\u00e1i th\u00e0nh vi\u00ean \u0111\u00e3 c\u1eadp nh\u1eadt','success')", true);
                 }
                 else
                 {
-                    ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Error','Record not Updated...try again','error')", true);
+                    ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('L\u1ed7i','Kh\u00f4ng th\u1ec3 c\u1eadp nh\u1eadt...vui l\u00f2ng th\u1eed l\u1ea1i','error')", true);
                 }
                 dbcon.CloseCon();
                 BindGridview();
             }
             else
             {
-                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Error','Record not found...try again','error')", true);
+                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('L\u1ed7i','Kh\u00f4ng t\u00ecm th\u1ea5y b\u1ea3n ghi...vui l\u00f2ng th\u1eed l\u1ea1i','error')", true);
             }
         }
 
@@ -111,7 +131,7 @@ namespace LMS_ProjectTraining.Admin
             cmd = new SqlCommand("sp_getMemberByID", dbcon.GetCon());
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.Clear();
-            cmd.Parameters.AddWithValue("@id", txtMemberID.Text.Trim());
+            cmd.Parameters.AddWithValue("@member_id", int.TryParse(txtMemberID.Text.Trim(), out int mid) ? mid : 0);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable();
             da.Fill(dt);
@@ -130,7 +150,7 @@ namespace LMS_ProjectTraining.Admin
             }
             else
             {
-                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Error','Validation error...try again','error')", true);
+                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('L\u1ed7i','L\u1ed7i x\u00e1c th\u1ef1c...vui l\u00f2ng th\u1eed l\u1ea1i','error')", true);
             }
         }
 
@@ -143,7 +163,7 @@ namespace LMS_ProjectTraining.Admin
             }
             else
             {
-                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Error','Validation error...try again','error')", true);
+                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('L\u1ed7i','L\u1ed7i x\u00e1c th\u1ef1c...vui l\u00f2ng th\u1eed l\u1ea1i','error')", true);
             }
         }
         

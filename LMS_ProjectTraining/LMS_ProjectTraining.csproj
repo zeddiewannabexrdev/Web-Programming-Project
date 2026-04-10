@@ -2168,6 +2168,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LanguageHelper.cs" />
     <Compile Include="Admin\Addauthor.aspx.cs">
       <DependentUpon>Addauthor.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

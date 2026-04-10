@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -16,6 +16,7 @@ namespace LMS_ProjectTraining.Admin
         SqlCommand cmd;
         protected void Page_Load(object sender, EventArgs e)
         {
+            GridView1.EmptyDataText = LanguageHelper.Get("no_books_inventory_msg");
             if (!this.IsPostBack)
             {
                 BindRepeater();

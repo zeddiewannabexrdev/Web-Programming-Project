@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -25,6 +25,11 @@ namespace LMS_ProjectTraining.Admin
             }
         }
 
+        protected string GetDeleteConfirmText()
+        {
+            return "return confirm('" + LMS_ProjectTraining.LanguageHelper.Get("confirm_delete_msg") + "');";
+        }
+
         protected void btnAdd_Click(object sender, EventArgs e)
         {
           if(IsValid)
@@ -33,7 +38,7 @@ namespace LMS_ProjectTraining.Admin
             }
             else
             {
-                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Error','Validation Error! please enter valid data ...try again','error')", true);
+                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('L\u1ed7i','L\u1ed7i x\u00e1c th\u1ef1c! vui l\u00f2ng nh\u1eadp d\u1eef li\u1ec7u h\u1ee3p l\u1ec7','error')", true);
             }
         }
 
@@ -41,13 +46,11 @@ namespace LMS_ProjectTraining.Admin
         {
             cmd = new SqlCommand("sp_UpdatePublisher", dbcon.GetCon());
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@id", txtpublisherID.Text);
-            cmd.Parameters.AddWithValue("@name", txtpublisherName.Text);
-            dbcon.OpenCon();
-            if (cmd.ExecuteNonQuery() == 1)
+            cmd.Parameters.AddWithValue("@publisher_id", int.TryParse(txtpublisherID.Text, out int pid) ? pid : 0);
+            cmd.Parameters.AddWithValue("@publisher_name", txtpublisherName.Text);
+            if (dbcon.InsertUpdateData(cmd))
             {
-                dbcon.CloseCon();
-                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Success','Updated successfully','success')", true);
+                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Th\u00e0nh c\u00f4ng','C\u1eadp nh\u1eadt th\u00e0nh c\u00f4ng','success')", true);
                 clrcontrol();
                 Bindrecord();
                 Autogenrate();
@@ -57,8 +60,7 @@ namespace LMS_ProjectTraining.Admin
             }
             else
             {
-                dbcon.CloseCon();
-                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Error','Error! record not updated ...try again','error')", true);
+                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('L\u1ed7i','L\u1ed7i! kh\u00f4ng th\u1ec3 c\u1eadp nh\u1eadt...vui l\u00f2ng th\u1eed l\u1ea1i','error')", true);
             }
         }
 
@@ -69,7 +71,7 @@ namespace LMS_ProjectTraining.Admin
         public void Autogenrate()
         {
             int r;
-            cmd = new SqlCommand("select max(publisher_id)as ID from publisher_master_tbl", dbcon.GetCon());
+            cmd = new SqlCommand("select max(publisher_id)as ID from publisher_tbl", dbcon.GetCon());
             dbcon.OpenCon();
             SqlDataReader dr = cmd.ExecuteReader();
             if (dr.Read())
@@ -105,21 +107,17 @@ namespace LMS_ProjectTraining.Admin
         {
             cmd = new SqlCommand("sp_InsertPublisher", dbcon.GetCon());
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@id", txtpublisherID.Text);
-            cmd.Parameters.AddWithValue("@name", txtpublisherName.Text);
-            dbcon.OpenCon();
-            if (cmd.ExecuteNonQuery() == 1)
+            cmd.Parameters.AddWithValue("@publisher_name", txtpublisherName.Text);
+            if (dbcon.InsertUpdateData(cmd))
             {
-                dbcon.CloseCon();
-                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Success','Saved successfully','success')", true);
+                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Th\u00e0nh c\u00f4ng','L\u01b0u th\u00e0nh c\u00f4ng','success')", true);
                 clrcontrol();
                 Bindrecord();
                 Autogenrate();
             }
             else
             {
-                dbcon.CloseCon();
-                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Error','Error! record not inserted ...try again','error')", true);
+                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('L\u1ed7i','L\u1ed7i! kh\u00f4ng th\u1ec3 th\u00eam b\u1ea3n ghi...vui l\u00f2ng th\u1eed l\u1ea1i','error')", true);
             }
         }
 
@@ -133,7 +131,7 @@ namespace LMS_ProjectTraining.Admin
             cmd = new SqlCommand("sp_getPublisherByID", dbcon.GetCon());
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.Clear();
-            cmd.Parameters.AddWithValue("@id", idd);
+            cmd.Parameters.AddWithValue("@publisher_id", int.TryParse(idd, out int pid) ? pid : 0);
             dbcon.OpenCon();
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             //DataTable dt = new DataTable();
@@ -150,7 +148,7 @@ namespace LMS_ProjectTraining.Admin
             }
             else
             {
-                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Error','Error! No Record Found try again...','error')", true);
+                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('L\u1ed7i','Kh\u00f4ng t\u00ecm th\u1ea5y b\u1ea3n ghi, vui l\u00f2ng th\u1eed l\u1ea1i','error')", true);
             }
         }
 
@@ -169,12 +167,10 @@ namespace LMS_ProjectTraining.Admin
                 cmd = new SqlCommand("sp_DeletePublisherByID", dbcon.GetCon());
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Clear();
-                cmd.Parameters.AddWithValue("@id", id);
-                dbcon.OpenCon();
-                if (cmd.ExecuteNonQuery() == 1)
+                cmd.Parameters.AddWithValue("@publisher_id", int.TryParse(id, out int pid) ? pid : 0);
+                if (dbcon.InsertUpdateData(cmd))
                 {
-                    dbcon.CloseCon();
-                    ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Success','Deleted successfully','success')", true);
+                    ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Th\u00e0nh c\u00f4ng','X\u00f3a th\u00e0nh c\u00f4ng','success')", true);
                     clrcontrol();
                     Bindrecord();
                     Autogenrate();
@@ -184,8 +180,7 @@ namespace LMS_ProjectTraining.Admin
                 }
                 else
                 {
-                    dbcon.CloseCon();
-                    ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Error','Error! record not deleted ...try again','error')", true);
+                    ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('L\u1ed7i','L\u1ed7i! kh\u00f4ng th\u1ec3 x\u00f3a...vui l\u00f2ng th\u1eed l\u1ea1i','error')", true);
                 }
 
             }

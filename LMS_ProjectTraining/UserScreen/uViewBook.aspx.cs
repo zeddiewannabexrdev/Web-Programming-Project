@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -20,6 +20,7 @@ namespace LMS_ProjectTraining.UserScreen
                
                 BindGridData();
             }
+            GridView1.EmptyDataText = "<center><b>" + LanguageHelper.Get("no_books_inventory_msg") + "</b></center>";
         }
         private void BindGridData()
         {

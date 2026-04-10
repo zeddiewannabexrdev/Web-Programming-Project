@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Book Inventory" Language="C#" MasterPageFile="~/Admin/AdminSite.Master" AutoEventWireup="true" CodeBehind="AdminBookInventory.aspx.cs" Inherits="LMS_ProjectTraining.Admin.AdminBookInventory" %>
+<%@ Page Title="Book Inventory" Language="C#" MasterPageFile="~/Admin/AdminSite.Master" AutoEventWireup="true" CodeBehind="AdminBookInventory.aspx.cs" Inherits="LMS_ProjectTraining.Admin.AdminBookInventory" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <script src="../datatable/js/jquery.dataTables.min.js"></script>
@@ -19,7 +19,7 @@
                         <div class="row">
                             <div class="col">
                                 <center>
-                                    <h6>Book Details</h6>
+                                    <h6><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_book_details") %></h6>
                                 </center>
                             </div>
                         </div>
@@ -47,17 +47,16 @@
                         </div>
                         <div class="row">
                             <div class="col-md-4">
-                                <label>Book ID</label>
+                                <label><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_book_id") %></label>
                                 <div class="form-group">
                                     <div class="input-group">
                                         <asp:TextBox ID="txtBookID" CssClass="form-control" runat="server"></asp:TextBox>
-                                        <asp:Button ID="btnGo" runat="server" Text="GO" CssClass="form-control btn btn-primary" OnClick="btnGo_Click" />
                                     </div>
                                 </div>
                             </div>
 
                             <div class="col-md-8">
-                                <label>Book Name</label>
+                                <label><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_book_name") %></label>
                                 <div class="form-group">
                                     <div class="input-group">
                                         <asp:TextBox ID="txtBookName" CssClass="form-control" runat="server"></asp:TextBox>
@@ -68,7 +67,7 @@
 
                         <div class="row">
                             <div class="col-md-4">
-                                <label>Language</label>
+                                <label><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_language") %></label>
                                 <div class="form-group">
                                     <asp:DropDownList class="form-control" ID="ddlLanguage" runat="server">
                                         <asp:ListItem Text="English" Value="English" />
@@ -80,7 +79,7 @@
                                     </asp:DropDownList>
                                 </div>
 
-                                <label>Publisher Name</label>
+                                <label><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_pub_name_in") %></label>
                                 <div class="form-group">
                                     <asp:DropDownList class="form-control" ID="ddlPublisherName" runat="server">
                                         <asp:ListItem Text="Publisher 1" Value="Publisher 1" />
@@ -89,7 +88,7 @@
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <label>Author Name</label>
+                                <label><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_author_name_in") %></label>
                                 <div class="form-group">
                                     <asp:DropDownList class="form-control" ID="ddlAuthor" runat="server">
                                         <asp:ListItem Text="select" Value="select"></asp:ListItem>
@@ -98,13 +97,13 @@
 
                                     </asp:DropDownList>
                                 </div>
-                                <label>Publish Date</label>
+                                <label><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_publish_date") %></label>
                                 <div class="form-group">
                                     <asp:TextBox CssClass="form-control" ID="txtPublishDate" runat="server" placeholder="Date" TextMode="Date"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <label>Genre</label>
+                                <label><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_genre") %></label>
                                 <div class="form-group">
                                     <asp:ListBox CssClass="form-control" ID="ListBoxGenre" runat="server" SelectionMode="Multiple" Rows="5">
                                         <asp:ListItem Text="Action" Value="Action" />
@@ -142,19 +141,19 @@
 
                         <div class="row">
                             <div class="col-md-4">
-                                <label>Edition</label>
+                                <label><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_edition") %></label>
                                 <div class="form-group">
                                     <asp:TextBox CssClass="form-control" ID="txtEdition" runat="server" placeholder="Edition"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <label>Book Cost(per unit)</label>
+                                <label><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_book_cost") %></label>
                                 <div class="form-group">
                                     <asp:TextBox CssClass="form-control" ID="txtbookCost" runat="server" placeholder="Book Cost(per unit)" TextMode="Number"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <label>Pages</label>
+                                <label><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_pages") %></label>
                                 <div class="form-group">
                                     <asp:TextBox CssClass="form-control" ID="txtPages" runat="server" placeholder="Pages" TextMode="Number"></asp:TextBox>
                                 </div>
@@ -163,19 +162,19 @@
 
                         <div class="row">
                             <div class="col-md-4">
-                                <label>Actual Stock</label>
+                                <label><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_actual_stock") %></label>
                                 <div class="form-group">
                                     <asp:TextBox CssClass="form-control" ID="txtActualStock" runat="server" placeholder="Actual Stock" TextMode="Number"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <label>Current Stock</label>
+                                <label><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_current_stock") %></label>
                                 <div class="form-group">
-                                    <asp:TextBox CssClass="form-control" ID="txtCurrentStock" runat="server" placeholder="Book Cost(per unit)" TextMode="Number" ReadOnly="True"></asp:TextBox>
+                                    <asp:TextBox CssClass="form-control" ID="txtCurrentStock" runat="server" placeholder="Current Stock" TextMode="Number" ReadOnly="True"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <label>Issued Books</label>
+                                <label><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_issued_books") %></label>
                                 <div class="form-group">
                                     <asp:TextBox CssClass="form-control" ID="txtIssuedBooks" runat="server" placeholder="Pages" TextMode="Number" ReadOnly="True"></asp:TextBox>
                                 </div>
@@ -183,7 +182,7 @@
                         </div>
                         <div class="row">
                             <div class="col-12">
-                                <label>Book Description</label>
+                                <label><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_book_desc") %></label>
                                 <div class="form-group">
                                     <asp:TextBox CssClass="form-control" ID="txtBookDesc" runat="server" placeholder="Book Description" TextMode="MultiLine" Rows="2"></asp:TextBox>
                                 </div>
@@ -220,7 +219,7 @@
                         <div class="row">
                             <div class="col">
                                 <center>
-                                    <h4>Book Inventory List</h4>
+                                    <h4><%= LMS_ProjectTraining.LanguageHelper.Get("book_inventory_list") %></h4>
                                 </center>
                             </div>
                         </div>
@@ -235,7 +234,14 @@
                                 <asp:GridView ID="GridView1" CssClass="table table-striped table-bordered" AutoGenerateColumns="false" DataKeyNames="book_id" runat="server">
 
                                     <Columns>
-                                        <asp:BoundField DataField="book_id" HeaderText="ID" ReadOnly="true" SortExpression="book_id" />
+                                        <asp:TemplateField HeaderText="ID" SortExpression="book_id">
+                                            <HeaderTemplate>
+                                                <%# LMS_ProjectTraining.LanguageHelper.Get("lbl_book_id") %>
+                                            </HeaderTemplate>
+                                            <ItemTemplate>
+                                                <asp:Label runat="server" Text='<%# Eval("book_id") %>'></asp:Label>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
 
                                         <asp:TemplateField>
                                             <ItemTemplate>
@@ -249,41 +255,41 @@
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col-12">
-                                                                    <span>Author - </span>
+                                                                    <span><%# LMS_ProjectTraining.LanguageHelper.Get("lbl_author_name_in") %> - </span>
                                                                     <asp:Label ID="Label2" runat="server" Font-Bold="True" Text='<%# Eval("author_name") %>'></asp:Label>
-                                                                    &nbsp;| <span><span>&nbsp;</span>Genre - </span>
+                                                                    &nbsp;| <span><span>&nbsp;</span><%# LMS_ProjectTraining.LanguageHelper.Get("lbl_genre") %> - </span>
                                                                     <asp:Label ID="Label3" runat="server" Font-Bold="True" Text='<%# Eval("genre") %>'></asp:Label>
                                                                     &nbsp;| 
-                                                                    <span>Language -<span>&nbsp;</span>
+                                                                    <span><%# LMS_ProjectTraining.LanguageHelper.Get("lbl_language") %> -<span>&nbsp;</span>
                                                                         <asp:Label ID="Label4" runat="server" Font-Bold="True" Text='<%# Eval("language") %>'></asp:Label>
                                                                     </span>
                                                                 </div>
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col-12">
-                                                                    Publisher -
+                                                                    <%# LMS_ProjectTraining.LanguageHelper.Get("lbl_pub_name_in") %> -
                                                                     <asp:Label ID="Label5" runat="server" Font-Bold="True" Text='<%# Eval("publisher_name") %>'></asp:Label>
-                                                                    &nbsp;| Publish Date -
+                                                                    &nbsp;| <%# LMS_ProjectTraining.LanguageHelper.Get("lbl_publish_date") %> -
                                                                     <asp:Label ID="Label6" runat="server" Font-Bold="True" Text='<%# Eval("publisher_date") %>'></asp:Label>
-                                                                    &nbsp;| Pages -
+                                                                    &nbsp;| <%# LMS_ProjectTraining.LanguageHelper.Get("lbl_pages") %> -
                                                                     <asp:Label ID="Label7" runat="server" Font-Bold="True" Text='<%# Eval("no_of_pages") %>'></asp:Label>
-                                                                    &nbsp;| Edition -
+                                                                    &nbsp;| <%# LMS_ProjectTraining.LanguageHelper.Get("lbl_edition") %> -
                                                                     <asp:Label ID="Label8" runat="server" Font-Bold="True" Text='<%# Eval("edition") %>'></asp:Label>
                                                                 </div>
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col-12">
-                                                                    Cost -
+                                                                    <%# LMS_ProjectTraining.LanguageHelper.Get("lbl_book_cost") %> -
                                                                     <asp:Label ID="Label9" runat="server" Font-Bold="True" Text='<%# Eval("book_cost") %>'></asp:Label>
-                                                                    &nbsp;| Actual Stock -
+                                                                    &nbsp;| <%# LMS_ProjectTraining.LanguageHelper.Get("lbl_actual_stock") %> -
                                                                     <asp:Label ID="Label10" runat="server" Font-Bold="True" Text='<%# Eval("actual_stock") %>'></asp:Label>
-                                                                    &nbsp;| Available Stock -
+                                                                    &nbsp;| <%# LMS_ProjectTraining.LanguageHelper.Get("lbl_avail_stock") %> -
                                                                     <asp:Label ID="Label11" runat="server" Font-Bold="True" Text='<%# Eval("current_stock") %>'></asp:Label>
                                                                 </div>
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col-12">
-                                                                    Description -
+                                                                    <%# LMS_ProjectTraining.LanguageHelper.Get("lbl_book_desc") %> -
                                                                     <asp:Label ID="Label12" runat="server" Font-Bold="True" Font-Italic="True" Font-Size="Smaller" Text='<%# Eval("book_description") %>'></asp:Label>
                                                                 </div>
                                                             </div>

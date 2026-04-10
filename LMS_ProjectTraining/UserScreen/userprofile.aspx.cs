@@ -1,4 +1,4 @@
-﻿using LMS_ProjectTraining.Admin;
+using LMS_ProjectTraining.Admin;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -20,7 +20,7 @@ namespace LMS_ProjectTraining.UserScreen
         {
             if (Session["username"].ToString() == "" || Session["username"] == null)
             {
-                Response.Write("<script>alert('Session Expired Login Again');</script>");
+                Response.Write("<script>alert('" + LanguageHelper.Get("session_expired") + "');</script>");
                 Response.Redirect("~/signout.aspx");
             }
             else
@@ -31,8 +31,19 @@ namespace LMS_ProjectTraining.UserScreen
                     BindGridData();
                 }
             }
-
             
+            btnUpdate.Text = LanguageHelper.Get("btn_update");
+            GridView1.EmptyDataText = "<center><b>" + LanguageHelper.Get("no_data_report") + "</b></center>";
+            if (GridView1.Columns.Count > 0)
+            {
+                GridView1.Columns[0].HeaderText = LanguageHelper.Get("lbl_member_id");
+                GridView1.Columns[1].HeaderText = LanguageHelper.Get("lbl_mem_name");
+                GridView1.Columns[2].HeaderText = LanguageHelper.Get("lbl_book_id");
+                GridView1.Columns[3].HeaderText = LanguageHelper.Get("lbl_book_name");
+                GridView1.Columns[4].HeaderText = LanguageHelper.Get("lbl_issue_date");
+                GridView1.Columns[5].HeaderText = LanguageHelper.Get("lbl_due_date");
+            }
+
         }
         private void SearchMember()
         {
@@ -76,7 +87,7 @@ namespace LMS_ProjectTraining.UserScreen
             }
             else
             {
-                Response.Write("<script>alert('Invalid Book ID');</script>");
+                Response.Write("<script>alert('" + LanguageHelper.Get("invalid_code") + "');</script>");
                 //ClearControl();
             }
         }
@@ -85,7 +96,7 @@ namespace LMS_ProjectTraining.UserScreen
         {
             if (Session["username"].ToString() == "" || Session["username"] == null)
             {
-                Response.Write("<script>alert('Session Expired Login Again');</script>");
+                Response.Write("<script>alert('" + LanguageHelper.Get("session_expired") + "');</script>");
                 Response.Redirect("Login.aspx");
             }
             else
@@ -97,7 +108,7 @@ namespace LMS_ProjectTraining.UserScreen
                 }
                 else
                 {
-                    Response.Write("<script>alert('validation error try Again');</script>");
+                    Response.Write("<script>alert('" + LanguageHelper.Get("validation_error") + "');</script>");
                 }
             }
         }
@@ -126,12 +137,12 @@ namespace LMS_ProjectTraining.UserScreen
             
             if (dbcon.InsertUpdateData(cmd))
             {                
-                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Success','Your Profile updated successfully','success')", true);
+                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('" + LanguageHelper.Get("success") + "','" + LanguageHelper.Get("profile_updated") + "','success')", true);
                 Response.Redirect("UserHome.aspx");
             }
             else
             {
-                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Error','Error! record not inserted ...try again','error')", true);
+                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('" + LanguageHelper.Get("error") + "','" + LanguageHelper.Get("update_error") + "','error')", true);
             }
             dbcon.CloseCon();
         }

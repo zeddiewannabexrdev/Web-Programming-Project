@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,7 +11,11 @@ namespace LMS_ProjectTraining
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (Request.QueryString["lang"] != null)
+            {
+                Session["lang"] = Request.QueryString["lang"];
+                Response.Redirect(Request.Url.AbsolutePath);
+            }
         }
     }
 }

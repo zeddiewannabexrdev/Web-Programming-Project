@@ -20,7 +20,7 @@ namespace LMS_ProjectTraining.Admin
             {
                 if (Session["Adminusername"].ToString() == "" || Session["Adminusername"] == null)
                 {
-                    Response.Write("<script>alert('Session Expired Login Again');</script>");
+                    Response.Write("<script>alert('Phi\u00ean \u0111\u1eadn\u0103ng nh\u1eadp \u0111\u00e3 h\u1ebft h\u1ea1n, vui l\u00f2ng \u0111\u0103ng nh\u1eadp l\u1ea1i');</script>");
                     Response.Redirect("~/signout.aspx");
                 }
                 else

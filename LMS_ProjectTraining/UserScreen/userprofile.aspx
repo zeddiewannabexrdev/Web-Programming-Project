@@ -1,4 +1,4 @@
-﻿<%@ Page Title="userprofile" Language="C#" MasterPageFile="~/UserScreen/User.Master" AutoEventWireup="true" CodeBehind="userprofile.aspx.cs" Inherits="LMS_ProjectTraining.UserScreen.userprofile" %>
+<%@ Page Title="userprofile" Language="C#" MasterPageFile="~/UserScreen/User.Master" AutoEventWireup="true" CodeBehind="userprofile.aspx.cs" Inherits="LMS_ProjectTraining.UserScreen.userprofile" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
@@ -18,8 +18,8 @@
                         <div class="row">
                             <div class="col">
                                 <center>
-                                    <h4>Your Profile</h4>
-                                    <span>Account Status - </span>
+                                    <h4><%= LMS_ProjectTraining.LanguageHelper.Get("your_profile") %></h4>
+                                    <span><%= LMS_ProjectTraining.LanguageHelper.Get("account_status") %></span>
                                     <asp:Label ID="lblStatus" class="badge badge-pill badge-info" runat="server" Text="Your status"></asp:Label>
                                 </center>
                             </div>
@@ -31,13 +31,13 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                <label>Full Name</label>
+                                <label><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_fullname") %></label>
                                 <div class="form-group">
-                                    <asp:TextBox ID="txtFullName" CssClass="form-control" runat="server" placeholder="Full Name"></asp:TextBox>
+                                    <asp:TextBox ID="txtFullName" CssClass="form-control" runat="server"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <label>Date of Birth</label>
+                                <label><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_dob") %></label>
                                 <div class="form-group">
                                     <asp:TextBox ID="txtDOB" CssClass="form-control" runat="server" placeholder="" TextMode="Date"></asp:TextBox>
                                 </div>
@@ -45,21 +45,21 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                <label>Contact No</label>
+                                <label><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_contact") %></label>
                                 <div class="form-group">
-                                    <asp:TextBox ID="txtContact" CssClass="form-control" runat="server" placeholder="Contact No" TextMode="Number"></asp:TextBox>
+                                    <asp:TextBox ID="txtContact" CssClass="form-control" runat="server" TextMode="Number"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <label>Email ID</label>
+                                <label><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_email") %></label>
                                 <div class="form-group">
-                                    <asp:TextBox ID="txtEmail" CssClass="form-control" runat="server" placeholder="Email ID" TextMode="Email"></asp:TextBox>
+                                    <asp:TextBox ID="txtEmail" CssClass="form-control" runat="server" TextMode="Email"></asp:TextBox>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-4">
-                                <label>State</label>
+                                <label><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_state") %></label>
                                 <div class="form-group">
                                     <asp:DropDownList class="form-control" ID="ddlState" runat="server">
                                         <asp:ListItem Text="Select" Value="select" />
@@ -97,50 +97,50 @@
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <label>City</label>
+                                <label><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_city") %></label>
                                 <div class="form-group">
-                                    <asp:TextBox class="form-control" ID="txtCity" runat="server" placeholder="City"></asp:TextBox>
+                                    <asp:TextBox class="form-control" ID="txtCity" runat="server"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <label>Pincode</label>
+                                <label><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_pin") %></label>
                                 <div class="form-group">
-                                    <asp:TextBox class="form-control" ID="txtPincode" runat="server" placeholder="Pincode" TextMode="Number"></asp:TextBox>
+                                    <asp:TextBox class="form-control" ID="txtPincode" runat="server" TextMode="Number"></asp:TextBox>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
-                                <label>Full Address</label>
+                                <label><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_address") %></label>
                                 <div class="form-group">
-                                    <asp:TextBox CssClass="form-control" ID="txtFullAddress" runat="server" placeholder="Full Address" TextMode="MultiLine" Rows="2"></asp:TextBox>
+                                    <asp:TextBox CssClass="form-control" ID="txtFullAddress" runat="server" TextMode="MultiLine" Rows="2"></asp:TextBox>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
                                 <center>
-                                    <span class="badge badge-pill badge-info">Login Credentials</span>
+                                    <span class="badge badge-pill badge-info"><%= LMS_ProjectTraining.LanguageHelper.Get("login_credentials") %></span>
                                 </center>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-4">
-                                <label>User ID</label>
+                                <label><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_member_id") %></label>
                                 <div class="form-group">
-                                    <asp:TextBox class="form-control" ID="txtUserID" runat="server" placeholder="User ID" ReadOnly="True"></asp:TextBox>
+                                    <asp:TextBox class="form-control" ID="txtUserID" runat="server" ReadOnly="True"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <label>Old Password</label>
+                                <label><%= LMS_ProjectTraining.LanguageHelper.Get("old_password") %></label>
                                 <div class="form-group">
-                                    <asp:TextBox class="form-control" ID="txtOldPassword" runat="server" placeholder="Password" TextMode="Password" ReadOnly="True"></asp:TextBox>
+                                    <asp:TextBox class="form-control" ID="txtOldPassword" runat="server" TextMode="Password" ReadOnly="True"></asp:TextBox>
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <label>New Password</label>
+                                <label><%= LMS_ProjectTraining.LanguageHelper.Get("new_password") %></label>
                                 <div class="form-group">
-                                    <asp:TextBox class="form-control" ID="txtNewPassword" runat="server" placeholder="new password" TextMode="Password"></asp:TextBox>
+                                    <asp:TextBox class="form-control" ID="txtNewPassword" runat="server" TextMode="Password"></asp:TextBox>
                                 </div>
                             </div>
                         </div>
@@ -174,8 +174,8 @@
                         <div class="row">
                             <div class="col">
                                 <center>
-                                    <h4>Your Issued Books</h4>
-                                    <asp:Label class="badge badge-pill badge-info" ID="Label2" runat="server" Text="your books info"></asp:Label>
+                                    <h4><%= LMS_ProjectTraining.LanguageHelper.Get("user_report_heading") %></h4>
+                                    <asp:Label class="badge badge-pill badge-info" ID="Label2" runat="server" Text='<%# LMS_ProjectTraining.LanguageHelper.Get("user_report_sub") %>'></asp:Label>
                                 </center>
                             </div>
                         </div>

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Member update" Language="C#" MasterPageFile="~/Admin/AdminSite.Master" AutoEventWireup="true" CodeBehind="UpdateMemberDetails.aspx.cs" Inherits="LMS_ProjectTraining.Admin.UpdateMemberDetails" %>
+<%@ Page Title="Member update" Language="C#" MasterPageFile="~/Admin/AdminSite.Master" AutoEventWireup="true" CodeBehind="UpdateMemberDetails.aspx.cs" Inherits="LMS_ProjectTraining.Admin.UpdateMemberDetails" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
    
@@ -132,7 +132,7 @@
         </div>
         <div class="row">
             <div class="col-sm-12">
-                <h4>Members List</h4>
+                <h4><%= LMS_ProjectTraining.LanguageHelper.Get("member_list") %></h4>
                 <div class="table table-responsive">
                     <asp:GridView ID="GridView1" CssClass="table table-sm" runat="server" AutoGenerateColumns="false" AllowPaging="true" OnPageIndexChanging="GridView1_PageIndexChanging" OnRowCancelingEdit="GridView1_RowCancelingEdit" OnRowEditing="GridView1_RowEditing" OnRowUpdating="GridView1_RowUpdating" OnRowDeleting="GridView1_RowDeleting" PageSize="5" Font-Size="8" OnRowDataBound="GridView1_RowDataBound" OnDataBound="GridView1_DataBound">
                         <HeaderStyle BackColor="#0066FF" Font-Bold="true" ForeColor="White" />
