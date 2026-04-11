@@ -113,7 +113,7 @@
 
             <br />
             <div class="jumbotron text-center alert alert-danger" style="margin-bottom: 0; border:2px solid red">
-                <p><%= LMS_ProjectTraining.LanguageHelper.Get("footer_top") %></p>
+
                 <div class="container">
                     <div class="row">
                         <div class="col-md-4">
@@ -139,7 +139,7 @@
                         <div class="col-md-4">
                             <h4><%= LMS_ProjectTraining.LanguageHelper.Get("footer_follow") %></h4>
                             <ul class="social-network social-circle">
-                                <li><a href="#" title="Facebook" ><i class="fa fa-facebook">Facebook</i></a></li>
+                                <li><a href="https://www.facebook.com/zeddiewannabexrdev/" title="Facebook" ><i class="fab fa-facebook"></i> Facebook</a></li>
                             </ul>
                         </div>
 
@@ -147,7 +147,7 @@
             <div id="footer2" class="container-fluid">
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-                        <p style="color: whitesmoke">&copy; <%= LMS_ProjectTraining.LanguageHelper.Get("footer_copyright") %></p>
+                        <p style="color: whitesmoke"><%= LMS_ProjectTraining.LanguageHelper.Get("footer_copyright") %></p>
                     </div>
                 </div>
             </div>

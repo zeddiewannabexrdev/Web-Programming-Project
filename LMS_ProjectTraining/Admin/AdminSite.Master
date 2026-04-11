@@ -153,7 +153,7 @@
 
                     <div class="row">
                         <div class="col-md-12 fa-copyright border-dark">
-                            <p class="text-center">&copy; <%= LMS_ProjectTraining.LanguageHelper.Get("footer_copyright") %></p>
+                            <p class="text-center"><%= LMS_ProjectTraining.LanguageHelper.Get("footer_copyright") %></p>
                         </div>
                     </div>
                 </div>
