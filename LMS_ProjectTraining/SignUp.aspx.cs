@@ -50,7 +50,7 @@ namespace LMS_ProjectTraining
             cmd.Parameters.AddWithValue("@full_address", txtAddress.Text);
             cmd.Parameters.AddWithValue("@member_id", int.TryParse(txtMemberID.Text, out int mid) ? mid : 0);
             cmd.Parameters.AddWithValue("@password", txtPassword.Text);
-            cmd.Parameters.AddWithValue("@account_status", "pending");
+            cmd.Parameters.AddWithValue("@account_status", "active");
             if(cmd.ExecuteNonQuery()==1)
             {
                 //Response.Write("<script>alert('T\u1ea1o t\u00e0i kho\u1ea3n th\u00e0nh c\u00f4ng');</script>");

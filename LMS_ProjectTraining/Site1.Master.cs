@@ -13,8 +13,14 @@ namespace LMS_ProjectTraining
         {
             if (Request.QueryString["lang"] != null)
             {
-                Session["lang"] = Request.QueryString["lang"];
-                Response.Redirect(Request.Url.AbsolutePath);
+                string requestedLang = Request.QueryString["lang"].ToString();
+                string currentLang = Session["lang"] != null ? Session["lang"].ToString() : "";
+
+                if (requestedLang != currentLang)
+                {
+                    Session["lang"] = requestedLang;
+                    Response.Redirect(Request.Url.AbsolutePath);
+                }
             }
         }
     }

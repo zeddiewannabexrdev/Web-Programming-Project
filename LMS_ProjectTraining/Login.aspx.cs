@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -22,8 +22,8 @@ namespace LMS_ProjectTraining
             SqlCommand cmd = new SqlCommand("sp_UserLogin", dbcon.GetCon());
             dbcon.OpenCon();
             cmd.CommandType=System.Data.CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@member_id", txtMemberID.Text);
-            cmd.Parameters.AddWithValue("@password", txtPassword.Text);
+            cmd.Parameters.AddWithValue("@member_id", int.TryParse(txtMemberID.Text.Trim(), out int mid) ? mid : 0);
+            cmd.Parameters.AddWithValue("@password", txtPassword.Text.Trim());
             SqlDataReader dr=cmd.ExecuteReader();   
             if(dr.HasRows)
             {

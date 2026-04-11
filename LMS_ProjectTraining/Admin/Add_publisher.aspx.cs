@@ -23,6 +23,9 @@ namespace LMS_ProjectTraining.Admin
                 btnupdate.Visible = false;
                 btnCancel.Visible = true;
             }
+            btnAdd.Text = LanguageHelper.Get("btn_add");
+            btnupdate.Text = LanguageHelper.Get("btn_update");
+            btnCancel.Text = LanguageHelper.Get("btn_cancel");
         }
 
         protected string GetDeleteConfirmText()

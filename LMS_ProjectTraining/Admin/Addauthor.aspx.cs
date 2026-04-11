@@ -21,6 +21,9 @@ namespace LMS_ProjectTraining.Admin
                 Autogenrate();
                 BindRepeater();
             }
+            btnAdd.Text = LanguageHelper.Get("btn_add");
+            btnupdate.Text = LanguageHelper.Get("btn_update");
+            btncancel.Text = LanguageHelper.Get("btn_cancel");
         }
 
         protected string GetDeleteConfirmText()

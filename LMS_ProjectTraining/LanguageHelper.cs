@@ -37,7 +37,7 @@ namespace LMS_ProjectTraining
             {"nav_language", "Language"},
             
             // Footer
-            {"footer_copyright", "© Copyright 2025 - Zeddiewannabexrdev. All rights reserved."},
+            {"footer_copyright", "© Copyright 2026 - Zeddiewannabexrdev. All rights reserved."},
 
             // Default Page
             {"home_title", "LIBRARY MANAGEMENT SYSTEM"},
@@ -54,7 +54,7 @@ namespace LMS_ProjectTraining
             {"side_top_search", "Top Searches"},
             {"side_active", "Active"},
             {"side_disabled", "Disabled"},
-            {"home_update_info", "Online Library Management System - Updated 2025"},
+            {"home_update_info", "Online Library Management System - Updated 2026"},
             {"home_image_alt", "Illustration Image"},
             {"home_about_title", "About the Library"},
             {"home_about_desc", "The library management system helps you easily search, borrow, and return books. We provide thousands of diverse titles from many different fields, serving your learning and research needs."},
@@ -213,7 +213,7 @@ namespace LMS_ProjectTraining
             {"nav_language", "Ngôn Ngữ"},
 
             // Footer
-            {"footer_copyright", "© Bản quyền 2025 - Zeddiewannabexrdev. Tất cả quyền được bảo lưu."},
+            {"footer_copyright", "© Bản quyền 2026 - Zeddiewannabexrdev. Tất cả quyền được bảo lưu."},
 
             // Default Page
             {"home_title", "HỆ THỐNG QUẢN LÝ THƯ VIỆN"},
@@ -230,7 +230,7 @@ namespace LMS_ProjectTraining
             {"side_top_search", "Tìm kiếm hàng đầu"},
             {"side_active", "Đang hoạt động"},
             {"side_disabled", "Vô hiệu hóa"},
-            {"home_update_info", "Hệ thống quản lý thư viện trực tuyến - Cập nhật 2025"},
+            {"home_update_info", "Hệ thống quản lý thư viện trực tuyến - Cập nhật 2026"},
             {"home_image_alt", "Hình ảnh minh họa"},
             {"home_about_title", "Giới thiệu về thư viện"},
             {"home_about_desc", "Hệ thống quản lý thư viện giúp bạn dễ dàng tìm kiếm, mượn và trả sách. Chúng tôi cung cấp hàng ngàn đầu sách đa dạng từ nhiều lĩnh vực khác nhau, phục vụ nhu cầu học tập và nghiên cứu của bạn."},

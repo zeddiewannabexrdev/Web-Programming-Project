@@ -34,7 +34,7 @@
                 <div class="form-group mb-4">
                     <asp:Button ID="btnAdd" CssClass="btn btn-success" Height="40px" Width="120px" runat="server" OnClick="btnAdd_Click" />
                     <asp:Button ID="btnupdate" CssClass="btn btn-info" runat="server" Height="40px" Width="120px" Visible="false" OnClick="btnupdate_Click" />
-                    <asp:Button ID="btncancel" CssClass="btn btn-danger" runat="server" Height="40px" Width="120px" Visible="false" OnClick="btncancel_Click"/>
+                    <asp:Button ID="btncancel" CssClass="btn btn-danger" runat="server" Height="40px" Width="120px" Visible="false" OnClick="btncancel_Click" />
                 </div>
             </div>
 

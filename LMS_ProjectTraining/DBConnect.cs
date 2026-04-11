@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -57,10 +57,10 @@ namespace LMS_ProjectTraining
                 cmd.ExecuteNonQuery();
                 recordSaved = true;
             }
-            catch
+            catch (Exception ex)
             {
-                //throw;
-                recordSaved = false;
+                throw ex;
+                //recordSaved = false;
             }
             finally
             {

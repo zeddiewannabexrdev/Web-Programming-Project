@@ -47,6 +47,11 @@ namespace LMS_ProjectTraining.Admin
         protected void btnAdd_Click(object sender, EventArgs e)
         {
             
+            if (ddlAuthor.SelectedIndex == 0 || ddlPublisherName.SelectedIndex == 0)
+            {
+                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Lỗi', 'Vui lòng chọn Tác giả và Nhà xuất bản', 'error')", true);
+                return;
+            }
             if(checkDuplicateBook())
             {                
                 ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('L\u1ed7i','S\u00e1ch \u0111\u00e3 t\u1ed3n t\u1ea1i...vui l\u00f2ng d\u00f9ng m\u00e3 s\u00e1ch kh\u00e1c','error')", true);
@@ -78,6 +83,11 @@ namespace LMS_ProjectTraining.Admin
 
         protected void btnUpdate_Click(object sender, EventArgs e)
         {            
+            if (ddlAuthor.SelectedIndex == 0 || ddlPublisherName.SelectedIndex == 0)
+            {
+                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Lỗi', 'Vui lòng chọn Tác giả và Nhà xuất bản', 'error')", true);
+                return;
+            }
             if(checkDuplicateBook())
                 UpdateBooks();
             else
@@ -106,10 +116,12 @@ namespace LMS_ProjectTraining.Admin
             genres = genres.Remove(genres.Length - 1);
 
             string filepath = "~/book_img/book2.png";
-            string filename = Path.GetFileName(FileUpload1.PostedFile.FileName);
-            
-            FileUpload1.SaveAs(Server.MapPath("~/book_img/" + filename));
-            filepath = "~/book_img/" + filename;
+            if (FileUpload1.HasFile)
+            {
+                string filename = Path.GetFileName(FileUpload1.PostedFile.FileName);
+                FileUpload1.SaveAs(Server.MapPath("~/book_img/" + filename));
+                filepath = "~/book_img/" + filename;
+            }
 
             cmd = new SqlCommand("sp_Insert_Up_Del_BookInventory", dbcon.GetCon());
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -158,16 +170,15 @@ namespace LMS_ProjectTraining.Admin
             genres = genres.Remove(genres.Length - 1);
 
             string F_path = "~/book_img/book2.png";
-            string filename = Path.GetFileName(FileUpload1.PostedFile.FileName);
-
-            if(filename=="" || filename==null)
-            {                
-                F_path = filepath;
+            if (FileUpload1.HasFile)
+            {
+                string filename = Path.GetFileName(FileUpload1.PostedFile.FileName);
+                FileUpload1.SaveAs(Server.MapPath("~/book_img/" + filename));
+                F_path = "~/book_img/" + filename;
             }
             else
             {
-                FileUpload1.SaveAs(Server.MapPath("~/book_img/" + filename));
-                F_path = "~/book_img/" + filename;
+                F_path = filepath;
             }
             
 
