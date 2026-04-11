@@ -184,7 +184,7 @@ GO
 CREATE PROCEDURE spGetAuthor
 AS
 BEGIN
-    SELECT author_name FROM author_tbl;
+    SELECT * FROM author_tbl;
 END
 GO
 
@@ -194,7 +194,7 @@ GO
 CREATE PROCEDURE sp_getPublisher
 AS
 BEGIN
-    SELECT publisher_name FROM publisher_tbl;
+    SELECT * FROM publisher_tbl;
 END
 GO
 
@@ -520,6 +520,45 @@ GO
 IF OBJECT_ID('sp_InsertFineRecord', 'P') IS NOT NULL DROP PROCEDURE sp_InsertFineRecord;
 GO
 CREATE PROCEDURE sp_InsertFineRecord
+    @book_id INT,
+    @member_id INT,
+    @member_name NVARCHAR(100),
+    @book_name NVARCHAR(200),
+    @fineamount DECIMAL(10,2),
+    @number_of_day INT,
+    @fine_date NVARCHAR(20)
+AS
+BEGIN
+    INSERT INTO BookFineRecord (book_id, member_id, member_name, book_name, fineamount, number_of_day, fine_date)
+    VALUES (@book_id, @member_id, @member_name, @book_name, @fineamount, @number_of_day, @fine_date);
+END
+GO
+
+-- SP: Lay chi tiet phat cho Admin
+IF OBJECT_ID('sp_FineDetails_forAdmin', 'P') IS NOT NULL DROP PROCEDURE sp_FineDetails_forAdmin;
+GO
+CREATE PROCEDURE sp_FineDetails_forAdmin
+AS
+BEGIN
+    SELECT * FROM BookFineRecord;
+END
+GO
+
+-- SP: Lay chi tiet phat cho USER
+IF OBJECT_ID('sp_FineDetails', 'P') IS NOT NULL DROP PROCEDURE sp_FineDetails;
+GO
+CREATE PROCEDURE sp_FineDetails
+    @member_id NVARCHAR(50)
+AS
+BEGIN
+    SELECT * FROM BookFineRecord WHERE member_id = @member_id;
+END
+GO
+
+-- SP: Ghi nhan phat (Ban chuẩn cho C#)
+IF OBJECT_ID('sp_InsertFineDetials', 'P') IS NOT NULL DROP PROCEDURE sp_InsertFineDetials;
+GO
+CREATE PROCEDURE sp_InsertFineDetials
     @book_id INT,
     @member_id INT,
     @member_name NVARCHAR(100),
