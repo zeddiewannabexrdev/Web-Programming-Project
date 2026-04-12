@@ -165,25 +165,38 @@ namespace LMS_ProjectTraining.Admin
             }
             if (e.CommandName == "delete")
             {
-                string[] commandArgs = e.CommandArgument.ToString().Split(new char[] { '&' });
-                string id = commandArgs[0];
+                string id = e.CommandArgument.ToString();
                 cmd = new SqlCommand("sp_DeletePublisherByID", dbcon.GetCon());
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Clear();
-                cmd.Parameters.AddWithValue("@publisher_id", int.TryParse(id, out int pid) ? pid : 0);
-                if (dbcon.InsertUpdateData(cmd))
+                cmd.Parameters.AddWithValue("@publisher_id", Convert.ToInt32(id));
+                
+                try
                 {
-                    ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Th\u00e0nh c\u00f4ng','X\u00f3a th\u00e0nh c\u00f4ng','success')", true);
-                    clrcontrol();
-                    Bindrecord();
-                    Autogenrate();
-                    btnAdd.Visible = true;
-                    btnupdate.Visible = false;
-                    //btnCancel.Visible = false;
+                    dbcon.OpenCon();
+                    int row = cmd.ExecuteNonQuery();
+                    dbcon.CloseCon();
+                    if (row > 0)
+                    {
+                        ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Thành công','Xóa thành công','success')", true);
+                        clrcontrol();
+                        Bindrecord();
+                        Autogenrate();
+                        btnAdd.Visible = true;
+                        btnupdate.Visible = false;
+                    }
+                    else
+                    {
+                        ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Lỗi','Không tìm thấy bản ghi để xóa','error')", true);
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('L\u1ed7i','L\u1ed7i! kh\u00f4ng th\u1ec3 x\u00f3a...vui l\u00f2ng th\u1eed l\u1ea1i','error')", true);
+                    ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Lỗi','Không thể xóa. Nhà xuất bản có thể đang liên kết với sách.','error')", true);
+                }
+                finally
+                {
+                    dbcon.CloseCon();
                 }
 
             }

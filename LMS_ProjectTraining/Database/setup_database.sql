@@ -178,7 +178,7 @@ BEGIN
 END
 GO
 
--- SP: Lay tac gia
+-- SP: Lay tat ca tac gia
 IF OBJECT_ID('spGetAuthor', 'P') IS NOT NULL DROP PROCEDURE spGetAuthor;
 GO
 CREATE PROCEDURE spGetAuthor
@@ -188,13 +188,59 @@ BEGIN
 END
 GO
 
--- SP: Lay nha xuat ban
+-- SP: Lay tac gia theo ID
+IF OBJECT_ID('spGetAuthorByID', 'P') IS NOT NULL DROP PROCEDURE spGetAuthorByID;
+GO
+CREATE PROCEDURE spGetAuthorByID
+    @author_id INT
+AS
+BEGIN
+    SELECT * FROM author_tbl WHERE author_id = @author_id;
+END
+GO
+
+-- SP: Cap nhat tac gia
+IF OBJECT_ID('sp_UpdateAuthor', 'P') IS NOT NULL DROP PROCEDURE sp_UpdateAuthor;
+GO
+CREATE PROCEDURE sp_UpdateAuthor
+    @author_id INT,
+    @author_name NVARCHAR(100)
+AS
+BEGIN
+    UPDATE author_tbl SET author_name = @author_name WHERE author_id = @author_id;
+END
+GO
+
+-- SP: Lay tat ca nha xuat ban
 IF OBJECT_ID('sp_getPublisher', 'P') IS NOT NULL DROP PROCEDURE sp_getPublisher;
 GO
 CREATE PROCEDURE sp_getPublisher
 AS
 BEGIN
     SELECT * FROM publisher_tbl;
+END
+GO
+
+-- SP: Lay nha xuat ban theo ID
+IF OBJECT_ID('sp_getPublisherByID', 'P') IS NOT NULL DROP PROCEDURE sp_getPublisherByID;
+GO
+CREATE PROCEDURE sp_getPublisherByID
+    @publisher_id INT
+AS
+BEGIN
+    SELECT * FROM publisher_tbl WHERE publisher_id = @publisher_id;
+END
+GO
+
+-- SP: Cap nhat nha xuat ban
+IF OBJECT_ID('sp_UpdatePublisher', 'P') IS NOT NULL DROP PROCEDURE sp_UpdatePublisher;
+GO
+CREATE PROCEDURE sp_UpdatePublisher
+    @publisher_id INT,
+    @publisher_name NVARCHAR(100)
+AS
+BEGIN
+    UPDATE publisher_tbl SET publisher_name = @publisher_name WHERE publisher_id = @publisher_id;
 END
 GO
 
@@ -280,13 +326,13 @@ END
 GO
 
 -- SP: Lay thanh vien theo ID
-IF OBJECT_ID('sp_getMember_ByID', 'P') IS NOT NULL DROP PROCEDURE sp_getMember_ByID;
+IF OBJECT_ID('sp_getMemberByID', 'P') IS NOT NULL DROP PROCEDURE sp_getMemberByID;
 GO
-CREATE PROCEDURE sp_getMember_ByID
-    @ID INT
+CREATE PROCEDURE sp_getMemberByID
+    @member_id INT
 AS
 BEGIN
-    SELECT * FROM member_master_tbl WHERE member_id = @ID;
+    SELECT full_name, dob, contact_no, email, [state], city, pincode, full_address, member_id, [password], account_status FROM member_master_tbl WHERE member_id = @member_id;
 END
 GO
 
@@ -451,10 +497,10 @@ BEGIN
 END
 GO
 
--- SP: Xoa thanh vien
-IF OBJECT_ID('sp_DeleteMember', 'P') IS NOT NULL DROP PROCEDURE sp_DeleteMember;
+-- SP: Xoa thanh vien theo ID
+IF OBJECT_ID('sp_DeleteMemberByID', 'P') IS NOT NULL DROP PROCEDURE sp_DeleteMemberByID;
 GO
-CREATE PROCEDURE sp_DeleteMember
+CREATE PROCEDURE sp_DeleteMemberByID
     @member_id INT
 AS
 BEGIN
@@ -462,13 +508,53 @@ BEGIN
 END
 GO
 
--- SP: Lay tat ca thanh vien
-IF OBJECT_ID('sp_GetAllMembers', 'P') IS NOT NULL DROP PROCEDURE sp_GetAllMembers;
+-- SP: Lay tat ca thanh vien (Admin)
+IF OBJECT_ID('sp_getMember_AllRecords', 'P') IS NOT NULL DROP PROCEDURE sp_getMember_AllRecords;
 GO
-CREATE PROCEDURE sp_GetAllMembers
+CREATE PROCEDURE sp_getMember_AllRecords
 AS
 BEGIN
     SELECT * FROM member_master_tbl;
+END
+GO
+
+-- SP: Cap nhat trang thai thanh vien
+IF OBJECT_ID('sp_UpdateMemberStatus_ByID', 'P') IS NOT NULL DROP PROCEDURE sp_UpdateMemberStatus_ByID;
+GO
+CREATE PROCEDURE sp_UpdateMemberStatus_ByID
+    @member_id INT,
+    @account_status NVARCHAR(20)
+AS
+BEGIN
+    UPDATE member_master_tbl SET account_status = @account_status WHERE member_id = @member_id;
+END
+GO
+
+-- SP: Cap nhat thong tin thanh vien (Admin Edit)
+IF OBJECT_ID('sp_UpdateMember_Records', 'P') IS NOT NULL DROP PROCEDURE sp_UpdateMember_Records;
+GO
+CREATE PROCEDURE sp_UpdateMember_Records
+    @member_id INT,
+    @full_name NVARCHAR(100),
+    @dob NVARCHAR(20),
+    @contact_no NVARCHAR(20),
+    @email NVARCHAR(100),
+    @state NVARCHAR(50),
+    @city NVARCHAR(50),
+    @pincode NVARCHAR(10),
+    @full_address NVARCHAR(500)
+AS
+BEGIN
+    UPDATE member_master_tbl SET
+        full_name = @full_name,
+        dob = @dob,
+        contact_no = @contact_no,
+        email = @email,
+        [state] = @state,
+        city = @city,
+        pincode = @pincode,
+        full_address = @full_address
+    WHERE member_id = @member_id;
 END
 GO
 
@@ -505,14 +591,14 @@ BEGIN
 END
 GO
 
--- SP: Xoa nha xuat ban
-IF OBJECT_ID('sp_DeletePublisher', 'P') IS NOT NULL DROP PROCEDURE sp_DeletePublisher;
+-- SP: Xoa nha xuat ban theo ID
+IF OBJECT_ID('sp_DeletePublisherByID', 'P') IS NOT NULL DROP PROCEDURE sp_DeletePublisherByID;
 GO
-CREATE PROCEDURE sp_DeletePublisher
-    @publisher_name NVARCHAR(100)
+CREATE PROCEDURE sp_DeletePublisherByID
+    @publisher_id INT
 AS
 BEGIN
-    DELETE FROM publisher_tbl WHERE publisher_name = @publisher_name;
+    DELETE FROM publisher_tbl WHERE publisher_id = @publisher_id;
 END
 GO
 

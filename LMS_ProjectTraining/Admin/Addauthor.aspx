@@ -62,7 +62,7 @@
                            <td><%#Eval("author_id") %> </td>
                            <td><%#Eval("author_name") %> </td>
                            <td style="width:10%">
-                               <asp:LinkButton ID="lnkEdit" class="table-link text-primary" runat="server" CommandArgument='<%#Eval("author_id") %>' CommandName="edit" ToolTip="edit record">
+                               <asp:LinkButton ID="lnkEdit" class="table-link text-primary" runat="server" CommandArgument='<%#Eval("author_id") %>' CommandName="edit" ToolTip="edit record" CausesValidation="false">
                                    <span class="fa-stack">
                                        <i class="fa fa-square  fa-stack-2x"> </i>
                                        <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
@@ -70,7 +70,7 @@
                                    </span>
                                </asp:LinkButton>
 
-                               <asp:LinkButton ID="lnkDelete" class="table-link text-danger" runat="server" CommandArgument='<%#Eval("author_id") %>' CommandName="delete" OnClientClick='<%# GetDeleteConfirmText() %>'>
+                               <asp:LinkButton ID="lnkDelete" class="table-link text-danger" runat="server" CommandArgument='<%#Eval("author_id") %>' CommandName="delete" CausesValidation="false">
                                    <span class="fa-stack">
                                        <i class="fa fa-square  fa-stack-2x"> </i>
                                        <i class=" fa fa-trash fa-stack-1x fa-inverse"></i>

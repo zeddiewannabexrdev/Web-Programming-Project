@@ -147,13 +147,43 @@
             </div> 
 
             <br />
-            <div class="jumbotron text-center alert alert-danger" style="margin-bottom: 0; border: 2px solid red">
+            <div class="jumbotron text-center alert alert-danger" style="margin-bottom: 0; border:2px solid red">
 
                 <div class="container">
-
                     <div class="row">
-                        <div class="col-md-12 fa-copyright border-dark">
-                            <p class="text-center"><%= LMS_ProjectTraining.LanguageHelper.Get("footer_copyright") %></p>
+                        <div class="col-md-4">
+                            <div class="footer-pad">
+                                <h4><%= LMS_ProjectTraining.LanguageHelper.Get("footer_info") %></h4>
+                                <ul class="list-unstyled">
+                                    <li><a href="#"></a></li>
+                                    <li><a href="#"><%= LMS_ProjectTraining.LanguageHelper.Get("footer_payment") %></a></li>
+                                    <li><a href="#"><%= LMS_ProjectTraining.LanguageHelper.Get("footer_news") %></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="footer-pad">
+                                <h4><%= LMS_ProjectTraining.LanguageHelper.Get("footer_support") %></h4>
+                                <ul class="list-unstyled">
+                                    <li><a href="#"></a></li>
+                                    <li><a href="#"><%= LMS_ProjectTraining.LanguageHelper.Get("footer_website") %></a></li>
+                                    <li><a href="#"><%= LMS_ProjectTraining.LanguageHelper.Get("footer_terms") %></a></li>
+                                </ul>
+                            </div>
+                        </div> 
+                        <div class="col-md-4">
+                            <h4><%= LMS_ProjectTraining.LanguageHelper.Get("footer_follow") %></h4>
+                            <ul class="social-network social-circle">
+                                <li><a href="https://www.facebook.com/zeddiewannabexrdev/" title="Facebook" ><i class="fab fa-facebook"></i> Facebook</a></li>
+                            </ul>
+                        </div>
+
+                    </div>
+                    <div id="footer2" class="container-fluid">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+                                <p style="color: whitesmoke"><%= LMS_ProjectTraining.LanguageHelper.Get("footer_copyright") %></p>
+                            </div>
                         </div>
                     </div>
                 </div>
