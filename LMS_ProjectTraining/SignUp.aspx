@@ -148,89 +148,80 @@
                                                                 <hr />
                                                             </div>
                                                         </div>
-                                                        <div class="row">
-                                                            <div class="col-4">
-                                                                <label><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_member_id") %></label>
-                                                                <div class="form-group">
-                                                                    <asp:TextBox ID="txtMemberID" CssClass="form-control" placeholder="Member ID" runat="server"></asp:TextBox>
+                                                        <asp:Panel ID="pnlSignup" runat="server" DefaultButton="btnSignup">
+                                                            <div class="row">
+                                                                <div class="col-4">
+                                                                    <label><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_member_id") %></label>
+                                                                    <div class="form-group">
+                                                                        <asp:TextBox ID="txtMemberID" CssClass="form-control" placeholder="Member ID" runat="server"></asp:TextBox>
 
-                                                                </div>
+                                                                    </div>
 
-                                                                <label><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_password") %></label>
-                                                                <div class="form-group">
-                                                                    <asp:TextBox ID="txtPassword" CssClass="form-control" placeholder="Password" TextMode="Password" runat="server"></asp:TextBox>
-                                                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="*" ControlToValidate="txtPassword" Display="Dynamic" ForeColor="Red" SetFocusOnError="True"></asp:RequiredFieldValidator>
+                                                                    <label><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_password") %></label>
+                                                                    <div class="form-group">
+                                                                        <asp:TextBox ID="txtPassword" CssClass="form-control" placeholder="Password" TextMode="Password" runat="server"></asp:TextBox>
+                                                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="*" ControlToValidate="txtPassword" Display="Dynamic" ForeColor="Red" SetFocusOnError="True"></asp:RequiredFieldValidator>
+                                                                    </div>
+                                                                    <label><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_fullname") %></label>
+                                                                    <div class="form-group">
+                                                                        <asp:TextBox ID="txtFullName" CssClass="form-control" placeholder="Full Name" runat="server"></asp:TextBox>
+                                                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ErrorMessage="*" ControlToValidate="txtFullName" Display="Dynamic" ForeColor="Red" SetFocusOnError="True"></asp:RequiredFieldValidator>
+                                                                    </div>
                                                                 </div>
-                                                                <label><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_fullname") %></label>
-                                                                <div class="form-group">
-                                                                    <asp:TextBox ID="txtFullName" CssClass="form-control" placeholder="Full Name" runat="server"></asp:TextBox>
-                                                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ErrorMessage="*" ControlToValidate="txtFullName" Display="Dynamic" ForeColor="Red" SetFocusOnError="True"></asp:RequiredFieldValidator>
-                                                                </div>
-                                                                
-                                                                
-                                                                
-                                                                <%--<div class="form-group">
-                                                                    <a href="SignUp.aspx">
-                                                                        <input type="button" class="btn btn-info btn-lg btn-block" value="Sign Up" />
-                                                                    </a>
-                                                                </div>--%>
-                                                            </div>
-                                                            <div class="col-4">
-                                                                <label><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_dob") %></label>
-                                                                <div class="form-group">
-                                                                    <asp:TextBox ID="txtDOB" CssClass="form-control" TextMode="Date" runat="server"></asp:TextBox>
-                                                                </div>
+                                                                <div class="col-4">
+                                                                    <label><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_dob") %></label>
+                                                                    <div class="form-group">
+                                                                        <asp:TextBox ID="txtDOB" CssClass="form-control" TextMode="Date" runat="server"></asp:TextBox>
+                                                                    </div>
 
-                                                                <label><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_contact") %></label>
-                                                                <div class="form-group">
-                                                                    <asp:TextBox ID="txtContactNO" CssClass="form-control" placeholder="Contact No" runat="server"></asp:TextBox>
+                                                                    <label><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_contact") %></label>
+                                                                    <div class="form-group">
+                                                                        <asp:TextBox ID="txtContactNO" CssClass="form-control" placeholder="Contact No" runat="server"></asp:TextBox>
+                                                                    </div>
+                                                                    <label><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_email") %></label>
+                                                                    <div class="form-group">
+                                                                        <asp:TextBox ID="txtEmail" CssClass="form-control" placeholder="Email" TextMode="Email" runat="server"></asp:TextBox>
+                                                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ErrorMessage="*" ControlToValidate="txtEmail" Display="Dynamic" ForeColor="#CC0000" SetFocusOnError="True"></asp:RequiredFieldValidator>
+                                                                        <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ErrorMessage="*" ControlToValidate="txtEmail" Display="Dynamic" ForeColor="#CC0099" SetFocusOnError="True" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*"></asp:RegularExpressionValidator>
+                                                                    </div>
                                                                 </div>
-                                                                <label><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_email") %></label>
-                                                                <div class="form-group">
-                                                                    <asp:TextBox ID="txtEmail" CssClass="form-control" placeholder="Email" TextMode="Email" runat="server"></asp:TextBox>
-                                                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ErrorMessage="*" ControlToValidate="txtEmail" Display="Dynamic" ForeColor="#CC0000" SetFocusOnError="True"></asp:RequiredFieldValidator>
-                                                                    <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ErrorMessage="*" ControlToValidate="txtEmail" Display="Dynamic" ForeColor="#CC0099" SetFocusOnError="True" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*"></asp:RegularExpressionValidator>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-4">
-                                                                <label><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_state") %></label>
-                                                                <div class="form-group">
-                                                                    <asp:DropDownList ID="ddlState" CssClass="form-control" runat="server">
-                                                                        <asp:ListItem Text="Select" Value="Select"></asp:ListItem>
-                                                                        <asp:ListItem Text="Hà Nội" Value="Hà Nội" />
-                                                                        <asp:ListItem Text="TP. Hồ Chí Minh" Value="TP. Hồ Chí Minh" />
-                                                                        <asp:ListItem Text="Đà Nẵng" Value="Đà Nẵng" />
-                                                                    </asp:DropDownList>
-                                                                </div>
+                                                                <div class="col-4">
+                                                                    <label><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_state") %></label>
+                                                                    <div class="form-group">
+                                                                        <asp:DropDownList ID="ddlState" CssClass="form-control" runat="server">
+                                                                            <asp:ListItem Text="Select" Value="Select"></asp:ListItem>
+                                                                            <asp:ListItem Text="Hà Nội" Value="Hà Nội" />
+                                                                            <asp:ListItem Text="TP. Hồ Chí Minh" Value="TP. Hồ Chí Minh" />
+                                                                            <asp:ListItem Text="Đà Nẵng" Value="Đà Nẵng" />
+                                                                        </asp:DropDownList>
+                                                                    </div>
 
-                                                                <label><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_city") %></label>
-                                                                <div class="form-group">
-                                                                    <asp:TextBox ID="txtCity" CssClass="form-control" placeholder="City" runat="server"></asp:TextBox>
-                                                                </div>
-                                                                <label><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_pin") %></label>
-                                                                <div class="form-group">
-                                                                    <asp:TextBox ID="txtPIN" CssClass="form-control" placeholder="Pincode" runat="server"></asp:TextBox>
-                                                                </div>
-                                                            </div>
-                                                            
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-12">
-                                                                <label><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_address") %></label>
-                                                                <div class="form-group">
-                                                                    <asp:TextBox ID="txtAddress" CssClass="form-control" placeholder="Full Address" runat="server"></asp:TextBox>
-                                                                </div>
-                                                                
-                                                            </div>
-                                                            
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-3">
-                                                                <div class="form-group">
-                                                                    <asp:Button ID="btnSignup" CssClass="btn btn-success btn-lg btn-block" runat="server" Text="Sign Up" OnClick="btnSignup_Click" />
+                                                                    <label><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_city") %></label>
+                                                                    <div class="form-group">
+                                                                        <asp:TextBox ID="txtCity" CssClass="form-control" placeholder="City" runat="server"></asp:TextBox>
+                                                                    </div>
+                                                                    <label><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_pin") %></label>
+                                                                    <div class="form-group">
+                                                                        <asp:TextBox ID="txtPIN" CssClass="form-control" placeholder="Pincode" runat="server"></asp:TextBox>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
+                                                            <div class="row">
+                                                                <div class="col-12">
+                                                                    <label><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_address") %></label>
+                                                                    <div class="form-group">
+                                                                        <asp:TextBox ID="txtAddress" CssClass="form-control" placeholder="Full Address" runat="server"></asp:TextBox>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-3">
+                                                                    <div class="form-group">
+                                                                        <asp:Button ID="btnSignup" CssClass="btn btn-success btn-lg btn-block" runat="server" Text="Sign Up" OnClick="btnSignup_Click" />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </asp:Panel>
                                                     </div>
                                                 </div>
                                                 <a href="default.aspx"><%= LMS_ProjectTraining.LanguageHelper.Get("back_home") %></a>

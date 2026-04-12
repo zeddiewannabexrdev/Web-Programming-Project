@@ -143,21 +143,23 @@
                                                         </div>
                                                         <div class="row">
                                                             <div class="col">
-                                                                <label><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_member_id") %></label>
-                                                                <div class="form-group">
-                                                                    <asp:TextBox ID="txtMemberID" CssClass="form-control" placeholder="Member ID"  runat="server"></asp:TextBox>
-                                                                </div>
+                                                                <asp:Panel ID="pnlUserLogin" runat="server" DefaultButton="btnLogin">
+                                                                    <label><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_member_id") %></label>
+                                                                    <div class="form-group">
+                                                                        <asp:TextBox ID="txtMemberID" CssClass="form-control" placeholder="Member ID"  runat="server"></asp:TextBox>
+                                                                    </div>
 
-                                                                <label><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_password") %></label>
-                                                                <div class="form-group">
-                                                                    <asp:TextBox ID="txtPassword" CssClass="form-control" placeholder="Password" TextMode="Password"  runat="server"></asp:TextBox>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <asp:Button ID="btnLogin" CssClass="btn btn-success btn-lg btn-block" runat="server" Text="Login" OnClick="btnLogin_Click" />
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <a href="SignUp.aspx"><input type="button" class="btn btn-info btn-lg btn-block" value="<%= LMS_ProjectTraining.LanguageHelper.Get("btn_signup") %>" /> </a>
-                                                                </div>
+                                                                    <label><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_password") %></label>
+                                                                    <div class="form-group">
+                                                                        <asp:TextBox ID="txtPassword" CssClass="form-control" placeholder="Password" TextMode="Password"  runat="server"></asp:TextBox>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <asp:Button ID="btnLogin" CssClass="btn btn-success btn-lg btn-block" runat="server" Text="Login" OnClick="btnLogin_Click" />
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <a href="SignUp.aspx"><input type="button" class="btn btn-info btn-lg btn-block" value="<%= LMS_ProjectTraining.LanguageHelper.Get("btn_signup") %>" /> </a>
+                                                                    </div>
+                                                                </asp:Panel>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -202,21 +204,23 @@
                                                         </div>
                                                         <div class="row">
                                                             <div class="col">
-                                                                <label><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_admin_id") %></label>
-                                                                <div class="form-group">
-                                                                    <asp:TextBox ID="txtAdminID" CssClass="form-control" placeholder="Admin ID"  runat="server"></asp:TextBox>
-                                                                </div>
+                                                                <asp:Panel ID="pnlAdminLogin" runat="server" DefaultButton="btnAdminLogin">
+                                                                    <label><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_admin_id") %></label>
+                                                                    <div class="form-group">
+                                                                        <asp:TextBox ID="txtAdminID" CssClass="form-control" placeholder="Admin ID"  runat="server"></asp:TextBox>
+                                                                    </div>
 
-                                                                <label><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_password") %></label>
-                                                                <div class="form-group">
-                                                                    <asp:TextBox ID="txtAdminPass" CssClass="form-control" placeholder="Password" TextMode="Password"  runat="server"></asp:TextBox>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <asp:Button ID="btnAdminLogin" CssClass="btn btn-success btn-lg btn-block" runat="server" Text="Admin Login" OnClick="btnAdminLogin_Click" />
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <a href="default.aspx"><input type="button" class="btn btn-info btn-lg btn-block" value="<%= LMS_ProjectTraining.LanguageHelper.Get("btn_signup") %>" /> </a>
-                                                                </div>
+                                                                    <label><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_password") %></label>
+                                                                    <div class="form-group">
+                                                                        <asp:TextBox ID="txtAdminPass" CssClass="form-control" placeholder="Password" TextMode="Password"  runat="server"></asp:TextBox>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <asp:Button ID="btnAdminLogin" CssClass="btn btn-success btn-lg btn-block" runat="server" Text="Admin Login" OnClick="btnAdminLogin_Click" />
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <a href="default.aspx"><input type="button" class="btn btn-info btn-lg btn-block" value="<%= LMS_ProjectTraining.LanguageHelper.Get("btn_signup") %>" /> </a>
+                                                                    </div>
+                                                                </asp:Panel>
                                                             </div>
                                                         </div>
                                                     </div>
