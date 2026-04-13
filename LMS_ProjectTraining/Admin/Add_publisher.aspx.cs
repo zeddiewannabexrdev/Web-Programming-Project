@@ -73,34 +73,30 @@ namespace LMS_ProjectTraining.Admin
         }
         public void Autogenrate()
         {
-            int r;
-            cmd = new SqlCommand("select max(publisher_id)as ID from publisher_tbl", dbcon.GetCon());
-            dbcon.OpenCon();
-            SqlDataReader dr = cmd.ExecuteReader();
-            if (dr.Read())
+            using (SqlCommand localCmd = new SqlCommand("select max(publisher_id) from publisher_tbl", dbcon.GetCon()))
             {
-                string d = dr[0].ToString();
-                if (d == "")
+                dbcon.OpenCon();
+                object result = localCmd.ExecuteScalar();
+                dbcon.CloseCon();
+
+                if (result == null || result == DBNull.Value)
                 {
                     // Reseed identity to 0 if table is empty so next insert is 1
-                    string reseedSql = "DBCC CHECKIDENT ('publisher_tbl', RESEED, 0);";
-                    SqlCommand reseedCmd = new SqlCommand(reseedSql, dbcon.GetCon());
-                    dbcon.OpenCon();
-                    reseedCmd.ExecuteNonQuery();
-                    dbcon.CloseCon();
-
+                    using (SqlCommand reseedCmd = new SqlCommand("DBCC CHECKIDENT ('publisher_tbl', RESEED, 0);", dbcon.GetCon()))
+                    {
+                        dbcon.OpenCon();
+                        reseedCmd.ExecuteNonQuery();
+                        dbcon.CloseCon();
+                    }
                     txtpublisherID.Text = "1";
                 }
                 else
                 {
-                    r = Convert.ToInt32(dr[0].ToString());
-                    r = r + 1;
-                    txtpublisherID.Text = r.ToString();
+                    int r = Convert.ToInt32(result);
+                    txtpublisherID.Text = (r + 1).ToString();
                 }
                 txtpublisherID.ReadOnly = false;
-                 
             }
-            dbcon.CloseCon();
         }
         protected void Bindrecord()
         {

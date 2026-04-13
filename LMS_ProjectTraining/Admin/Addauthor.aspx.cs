@@ -73,34 +73,30 @@ namespace LMS_ProjectTraining.Admin
         }
         public void Autogenrate()
         {
-            int r;
-            cmd = new SqlCommand("select max(author_id)as ID from author_tbl", dbcon.GetCon());
-            dbcon.OpenCon();
-            SqlDataReader dr = cmd.ExecuteReader();
-            if (dr.Read())
+            using (SqlCommand localCmd = new SqlCommand("select max(author_id) from author_tbl", dbcon.GetCon()))
             {
-                string d = dr[0].ToString();
-                if (d == "")
+                dbcon.OpenCon();
+                object result = localCmd.ExecuteScalar();
+                dbcon.CloseCon();
+
+                if (result == null || result == DBNull.Value)
                 {
                     // Reseed identity to 0 if table is empty so next insert is 1
-                    string reseedSql = "DBCC CHECKIDENT ('author_tbl', RESEED, 0);";
-                    SqlCommand reseedCmd = new SqlCommand(reseedSql, dbcon.GetCon());
-                    dbcon.OpenCon();
-                    reseedCmd.ExecuteNonQuery();
-                    dbcon.CloseCon();
-
+                    using (SqlCommand reseedCmd = new SqlCommand("DBCC CHECKIDENT ('author_tbl', RESEED, 0);", dbcon.GetCon()))
+                    {
+                        dbcon.OpenCon();
+                        reseedCmd.ExecuteNonQuery();
+                        dbcon.CloseCon();
+                    }
                     txtID.Text = "1";
                 }
                 else
                 {
-                    r = Convert.ToInt32(dr[0].ToString());
-                    r = r + 1;
-                    txtID.Text = r.ToString();
+                    int r = Convert.ToInt32(result);
+                    txtID.Text = (r + 1).ToString();
                 }
                 txtID.ReadOnly = false;
-                //txtID.BackColor = System.Drawing.Color.Red;
             }
-            dbcon.CloseCon();
         }
 
         protected void Repeater1_ItemCommand(object source, RepeaterCommandEventArgs e)
