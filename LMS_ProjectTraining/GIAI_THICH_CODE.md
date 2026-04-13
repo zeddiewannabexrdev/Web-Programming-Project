@@ -153,13 +153,19 @@ Nội dung quan trọng:
 
 <system.web>
     // Bật debug mode, target .NET 4.7.2
+    // maxRequestLength: Giới hạn dung lượng tải lên (102400 KB = 100 MB)
     <compilation debug="true" targetFramework="4.7.2" />
+    <httpRuntime targetFramework="4.7.2" maxRequestLength="102400" />
 </system.web>
 
-<system.codedom>
-    // Cấu hình Roslyn compiler cho C# và VB.NET
-    // Cho phép dùng các tính năng C# mới hơn
-</system.codedom>
+<system.webServer>
+    <security>
+        <requestFiltering>
+            // maxAllowedContentLength: Giới hạn dung lượng request (104857600 Bytes = 100 MB)
+            <requestLimits maxAllowedContentLength="104857600" />
+        </requestFiltering>
+    </security>
+</system.webServer>
 ```
 
 #### 📄 `Global.asax` + `Global.asax.cs` — Application Lifecycle
@@ -862,20 +868,22 @@ private void BindGridData()
 // ═══════════════════════════════════════════════
 protected void btnIssue_Click(object sender, EventArgs e)
 {
-    // 1. Kiểm tra: Book ID có tồn tại VÀ còn hàng không?
-    // 2. Kiểm tra: Member ID có tồn tại không?
-    if (IsBookExist() && IsMemberExist())
+    // CẢI TIẾN: Phân tách thông báo lỗi rõ ràng
+    if (!IsMemberExist())
+        swal('Lỗi', 'Mã thành viên không tồn tại', 'error');
+    else if (!IsBookInDB())
+        swal('Lỗi', 'Mã sách không tồn tại', 'error');
+    else if (!IsBookAvailable())
+        swal('Lỗi', 'Sách hiện đã hết trong kho', 'error');
+    else
     {
-        // 3. Kiểm tra: Thành viên này đã mượn cuốn này chưa?
         if (IsIssueEntryExist())
-            alert('This Member already has this book');
+            swal('Cảnh báo', 'Thành viên này đã mượn cuốn sách này rồi', 'warning');
         else
         {
-            // 4. TẠO PHIẾU MƯỢN
-            issueBook();       // INSERT vào book_issue_tbl
-            // 5. CẬP NHẬT TỒN KHO
-            updateBookStock(); // current_stock = current_stock - 1
-            BindGridData();    // Cập nhật bảng
+            issueBook();       // Mượn sách
+            updateBookStock(); // Trừ kho
+            BindGridData();
         }
     }
 }
@@ -1054,14 +1062,14 @@ protected void btnUpdate_Click(object sender, EventArgs e)
 ┌─────────────────────┐     ┌─────────────────────┐
 │   admin_tbl         │     │   author_tbl        │
 ├─────────────────────┤     ├─────────────────────┤
-│ PK username         │     │ PK author_id (auto) │
+│ PK username         │     │ PK author_id (Man)  │
 │    password         │     │    author_name      │
 │    full_name        │     └─────────────────────┘
 └─────────────────────┘
                               ┌─────────────────────┐
                               │  publisher_tbl      │
                               ├─────────────────────┤
-                              │ PK publisher_id     │
+                              │ PK publisher_id(Man)│
                               │    publisher_name   │
                               └─────────────────────┘
 
@@ -1116,6 +1124,8 @@ protected void btnUpdate_Click(object sender, EventArgs e)
 | `sp_getMemberProfileByID` | userprofile | SELECT thông tin thành viên theo ID |
 | `sp_UpdateMember_Profile` | userprofile | UPDATE thông tin cá nhân user |
 | `sp_GetUserIssueBookDetails` | userprofile | SELECT sách đang mượn của user |
+| `sp_InsertAuthor` | Addauthor.aspx.cs | INSERT tác giả mới (hỗ trợ nhập ID thủ công) |
+| `sp_InsertPublisher` | Add_publisher.aspx.cs | INSERT NXB mới (hỗ trợ nhập ID thủ công) |
 | `spGetAuthor` | AdminBookInventory | SELECT tất cả tác giả |
 | `sp_getPublisher` | AdminBookInventory | SELECT tất cả NXB |
 

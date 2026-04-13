@@ -77,10 +77,10 @@ namespace LMS_ProjectTraining.Admin
 
         private void GetMemName()
         {
-            cmd = new SqlCommand("sp_getMember_ByID", dbcon.GetCon());
+            cmd = new SqlCommand("sp_getMemberByID", dbcon.GetCon());
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Clear();
-            cmd.Parameters.AddWithValue("@ID", int.TryParse(txtMemID.Text.Trim(), out int mid) ? mid : 0);
+            cmd.Parameters.AddWithValue("@member_id", int.TryParse(txtMemID.Text.Trim(), out int mid) ? mid : 0);
             DataTable dtt=dbcon.Load_Data(cmd);
             if(dtt.Rows.Count>=1)
             {
@@ -94,22 +94,41 @@ namespace LMS_ProjectTraining.Admin
 
         protected void btnIssue_Click(object sender, EventArgs e)
         {
-            if(IsBookExist() && IsMemberExist())
+            if (!IsMemberExist())
             {
-                if (IsIssueEntryExist())
-                {
-                    Response.Write("<script>alert('Th\u00e0nh vi\u00ean n\u00e0y \u0111\u00e3 m\u01b0\u1ee3n cu\u1ed1n s\u00e1ch n\u00e0y r\u1ed3i');</script>");
-                }
-                else
-                {
-                    issueBook();
-                    BindGridData();
-                }
+                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Lỗi','Mã thành viên không tồn tại','error')", true);
+                return;
+            }
+            if (!IsBookInDB())
+            {
+                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Lỗi','Mã sách không tồn tại','error')", true);
+                return;
+            }
+            if (!IsBookExist())
+            {
+                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Lỗi','Sách này đã hết hàng trong kho','error')", true);
+                return;
+            }
+
+            if (IsIssueEntryExist())
+            {
+                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Cảnh báo','Thành viên này đã mượn cuốn sách này rồi','warning')", true);
             }
             else
             {
-                Response.Write("<script>alert('Sai M\u00e3 s\u00e1ch ho\u1eb7c M\u00e3 th\u00e0nh vi\u00ean');</script>");
+                issueBook();
+                BindGridData();
             }
+        }
+
+        private bool IsBookInDB()
+        {
+            cmd = new SqlCommand("spgetBookBYID", dbcon.GetCon());
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Clear();
+            cmd.Parameters.AddWithValue("@book_id", int.TryParse(txtBookID.Text.Trim(), out int bid) ? bid : 0);
+            DataTable dtt = dbcon.Load_Data(cmd);
+            return dtt.Rows.Count >= 1;
         }
 
         private void issueBook()
@@ -185,10 +204,10 @@ namespace LMS_ProjectTraining.Admin
         }
         private bool IsMemberExist()
         {
-            cmd = new SqlCommand("sp_getMember_ByID", dbcon.GetCon());
+            cmd = new SqlCommand("sp_getMemberByID", dbcon.GetCon());
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.Clear();
-            cmd.Parameters.AddWithValue("@ID", int.TryParse(txtMemID.Text.Trim(), out int mid) ? mid : 0);
+            cmd.Parameters.AddWithValue("@member_id", int.TryParse(txtMemID.Text.Trim(), out int mid) ? mid : 0);
             DataTable dtt = dbcon.Load_Data(cmd);
             if (dtt.Rows.Count >= 1)
             {

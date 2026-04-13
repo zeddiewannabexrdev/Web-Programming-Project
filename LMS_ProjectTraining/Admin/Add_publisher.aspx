@@ -35,6 +35,7 @@
                         <table class="table table-bordered table-hover">
                             <thead class="alert-info">
                                 <tr>
+                                    <th>STT</th>
                                     <th><span><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_pub_id") %></span> </th>
                                     <th><span><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_pub_name") %></span> </th>
                                     <th>&nbsp;</th>
@@ -44,6 +45,7 @@
                       </HeaderTemplate>
                     <ItemTemplate>
                        <tr> 
+                           <td><%# Container.ItemIndex + 1 %></td>
                            <td><%#Eval("publisher_id") %> </td>
                            <td><%#Eval("publisher_name") %> </td>
                            <td style="width:18%">

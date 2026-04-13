@@ -45,7 +45,7 @@ GO
 -- Bang tac gia
 IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'author_tbl')
 CREATE TABLE author_tbl (
-    author_id INT IDENTITY(1,1) PRIMARY KEY,
+    author_id INT PRIMARY KEY,
     author_name NVARCHAR(100)
 );
 GO
@@ -53,7 +53,7 @@ GO
 -- Bang nha xuat ban
 IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'publisher_tbl')
 CREATE TABLE publisher_tbl (
-    publisher_id INT IDENTITY(1,1) PRIMARY KEY,
+    publisher_id INT PRIMARY KEY,
     publisher_name NVARCHAR(100)
 );
 GO
@@ -562,10 +562,15 @@ GO
 IF OBJECT_ID('sp_InsertAuthor', 'P') IS NOT NULL DROP PROCEDURE sp_InsertAuthor;
 GO
 CREATE PROCEDURE sp_InsertAuthor
-    @author_name NVARCHAR(100)
+    @author_name NVARCHAR(100),
+    @author_id INT = NULL
 AS
 BEGIN
-    INSERT INTO author_tbl (author_name) VALUES (@author_name);
+    IF @author_id IS NULL OR @author_id <= 0
+    BEGIN
+        SELECT @author_id = ISNULL(MAX(author_id), 0) + 1 FROM author_tbl;
+    END
+    INSERT INTO author_tbl (author_id, author_name) VALUES (@author_id, @author_name);
 END
 GO
 
@@ -584,10 +589,15 @@ GO
 IF OBJECT_ID('sp_InsertPublisher', 'P') IS NOT NULL DROP PROCEDURE sp_InsertPublisher;
 GO
 CREATE PROCEDURE sp_InsertPublisher
-    @publisher_name NVARCHAR(100)
+    @publisher_name NVARCHAR(100),
+    @publisher_id INT = NULL
 AS
 BEGIN
-    INSERT INTO publisher_tbl (publisher_name) VALUES (@publisher_name);
+    IF @publisher_id IS NULL OR @publisher_id <= 0
+    BEGIN
+        SELECT @publisher_id = ISNULL(MAX(publisher_id), 0) + 1 FROM publisher_tbl;
+    END
+    INSERT INTO publisher_tbl (publisher_id, publisher_name) VALUES (@publisher_id, @publisher_name);
 END
 GO
 

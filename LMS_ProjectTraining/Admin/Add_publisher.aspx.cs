@@ -82,7 +82,14 @@ namespace LMS_ProjectTraining.Admin
                 string d = dr[0].ToString();
                 if (d == "")
                 {
-                    txtpublisherID.Text = "501";
+                    // Reseed identity to 0 if table is empty so next insert is 1
+                    string reseedSql = "DBCC CHECKIDENT ('publisher_tbl', RESEED, 0);";
+                    SqlCommand reseedCmd = new SqlCommand(reseedSql, dbcon.GetCon());
+                    dbcon.OpenCon();
+                    reseedCmd.ExecuteNonQuery();
+                    dbcon.CloseCon();
+
+                    txtpublisherID.Text = "1";
                 }
                 else
                 {
@@ -90,7 +97,7 @@ namespace LMS_ProjectTraining.Admin
                     r = r + 1;
                     txtpublisherID.Text = r.ToString();
                 }
-                txtpublisherID.ReadOnly = true;
+                txtpublisherID.ReadOnly = false;
                  
             }
             dbcon.CloseCon();
@@ -108,19 +115,23 @@ namespace LMS_ProjectTraining.Admin
         }
         protected void insertpublisher()
         {
-            cmd = new SqlCommand("sp_InsertPublisher", dbcon.GetCon());
-            cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@publisher_name", txtpublisherName.Text);
-            if (dbcon.InsertUpdateData(cmd))
+            using (SqlCommand localCmd = new SqlCommand("sp_InsertPublisher", dbcon.GetCon()))
             {
-                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Th\u00e0nh c\u00f4ng','L\u01b0u th\u00e0nh c\u00f4ng','success')", true);
-                clrcontrol();
-                Bindrecord();
-                Autogenrate();
-            }
-            else
-            {
-                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('L\u1ed7i','L\u1ed7i! kh\u00f4ng th\u1ec3 th\u00eam b\u1ea3n ghi...vui l\u00f2ng th\u1eed l\u1ea1i','error')", true);
+                localCmd.CommandType = CommandType.StoredProcedure;
+                localCmd.Parameters.AddWithValue("@publisher_id", int.TryParse(txtpublisherID.Text.Trim(), out int pid) ? pid : 0);
+                localCmd.Parameters.AddWithValue("@publisher_name", txtpublisherName.Text.Trim());
+
+                if (dbcon.InsertUpdateData(localCmd))
+                {
+                    ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Thành công','Lưu thành công','success')", true);
+                    clrcontrol();
+                    Bindrecord();
+                    Autogenrate();
+                }
+                else
+                {
+                    ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Lỗi','Lỗi! không thể thêm bản ghi...vui lòng thử lại','error')", true);
+                }
             }
         }
 
@@ -178,6 +189,13 @@ namespace LMS_ProjectTraining.Admin
                     dbcon.CloseCon();
                     if (row > 0)
                     {
+                        // Reset Identity to max ID to avoid gaps at the end
+                        string reseedSql = "DECLARE @max INT; SELECT @max = ISNULL(MAX(publisher_id), 0) FROM publisher_tbl; DBCC CHECKIDENT ('publisher_tbl', RESEED, @max);";
+                        SqlCommand reseedCmd = new SqlCommand(reseedSql, dbcon.GetCon());
+                        dbcon.OpenCon();
+                        reseedCmd.ExecuteNonQuery();
+                        dbcon.CloseCon();
+
                         ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Thành công','Xóa thành công','success')", true);
                         clrcontrol();
                         Bindrecord();

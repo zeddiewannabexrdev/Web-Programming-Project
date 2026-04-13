@@ -30,21 +30,40 @@ namespace LMS_ProjectTraining.Admin
         {
             return "return confirm('" + LMS_ProjectTraining.LanguageHelper.Get("confirm_delete_msg") + "');";
         }
+        private void AddAuthor()
+        {
+            using (SqlCommand localCmd = new SqlCommand("sp_InsertAuthor", dbcon.GetCon()))
+            {
+                localCmd.CommandType = CommandType.StoredProcedure;
+                localCmd.Parameters.AddWithValue("@author_id", int.TryParse(txtID.Text.Trim(), out int aid) ? aid : 0);
+                localCmd.Parameters.AddWithValue("@author_name", txtAuthorName.Text.Trim());
+                dbcon.InsertUpdateData(localCmd);
+            }
+        }
         protected void btnAdd_Click(object sender, EventArgs e)
         {
-            cmd = new SqlCommand("sp_InsertAuthor", dbcon.GetCon());
-            cmd.CommandType=System.Data.CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@author_name",txtAuthorName.Text);
-            if(dbcon.InsertUpdateData(cmd))
+            if (CheckDuplicateAuthor())
             {
-                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Th\u00e0nh c\u00f4ng','L\u01b0u th\u00e0nh c\u00f4ng','success')", true);
+                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Lỗi','Mã ID hoặc Tên tác giả đã tồn tại','error')", true);
+            }
+            else
+            {
+                AddAuthor();
+                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Thành công','Lưu thành công','success')", true);
                 clrcontrol();
                 BindRepeater();
                 Autogenrate();
             }
-            else
+        }
+
+        private bool CheckDuplicateAuthor()
+        {
+            using (SqlCommand localCmd = new SqlCommand("SELECT * FROM author_tbl WHERE author_id=@ID OR author_name=@Name", dbcon.GetCon()))
             {
-                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('L\u1ed7i','L\u1ed7i! kh\u00f4ng th\u1ec3 th\u00eam b\u1ea3n ghi...vui l\u00f2ng th\u1eed l\u1ea1i','error')", true);
+                localCmd.Parameters.AddWithValue("@ID", int.TryParse(txtID.Text.Trim(), out int aid) ? aid : 0);
+                localCmd.Parameters.AddWithValue("@Name", txtAuthorName.Text.Trim());
+                DataTable dt = dbcon.Load_Data(localCmd);
+                return dt.Rows.Count > 0;
             }
         }
         protected void clrcontrol()
@@ -63,7 +82,14 @@ namespace LMS_ProjectTraining.Admin
                 string d = dr[0].ToString();
                 if (d == "")
                 {
-                    txtID.Text = "101";
+                    // Reseed identity to 0 if table is empty so next insert is 1
+                    string reseedSql = "DBCC CHECKIDENT ('author_tbl', RESEED, 0);";
+                    SqlCommand reseedCmd = new SqlCommand(reseedSql, dbcon.GetCon());
+                    dbcon.OpenCon();
+                    reseedCmd.ExecuteNonQuery();
+                    dbcon.CloseCon();
+
+                    txtID.Text = "1";
                 }
                 else
                 {
@@ -71,7 +97,7 @@ namespace LMS_ProjectTraining.Admin
                     r = r + 1;
                     txtID.Text = r.ToString();
                 }
-                txtID.ReadOnly = true;
+                txtID.ReadOnly = false;
                 //txtID.BackColor = System.Drawing.Color.Red;
             }
             dbcon.CloseCon();
@@ -99,6 +125,13 @@ namespace LMS_ProjectTraining.Admin
                     dbcon.CloseCon();
                     if (row > 0)
                     {
+                        // Reset Identity to max ID to avoid gaps at the end
+                        string reseedSql = "DECLARE @max INT; SELECT @max = ISNULL(MAX(author_id), 0) FROM author_tbl; DBCC CHECKIDENT ('author_tbl', RESEED, @max);";
+                        SqlCommand reseedCmd = new SqlCommand(reseedSql, dbcon.GetCon());
+                        dbcon.OpenCon();
+                        reseedCmd.ExecuteNonQuery();
+                        dbcon.CloseCon();
+
                         ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Thành công','Xóa thành công','success')", true);
                         clrcontrol();
                         BindRepeater();
@@ -167,23 +200,25 @@ namespace LMS_ProjectTraining.Admin
 
         protected void btnupdate_Click(object sender, EventArgs e)
         {
-            cmd = new SqlCommand("sp_UpdateAuthor", dbcon.GetCon());
-            cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@author_id", int.TryParse(txtID.Text, out int aid) ? aid : 0);
-            cmd.Parameters.AddWithValue("@author_name", txtAuthorName.Text);
-            if (dbcon.InsertUpdateData(cmd))
+            using (SqlCommand localCmd = new SqlCommand("sp_UpdateAuthor", dbcon.GetCon()))
             {
-                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Th\u00e0nh c\u00f4ng','C\u1eadp nh\u1eadt th\u00e0nh c\u00f4ng','success')", true);
-                clrcontrol();
-                BindRepeater();
-                Autogenrate();
-                btnAdd.Visible = true;
-                btnupdate.Visible = false;
-                btncancel.Visible = false;
-            }
-            else
-            {
-                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('L\u1ed7i','L\u1ed7i! kh\u00f4ng th\u1ec3 c\u1eadp nh\u1eadt...vui l\u00f2ng th\u1eed l\u1ea1i','error')", true);
+                localCmd.CommandType = CommandType.StoredProcedure;
+                localCmd.Parameters.AddWithValue("@author_id", int.TryParse(txtID.Text, out int aid) ? aid : 0);
+                localCmd.Parameters.AddWithValue("@author_name", txtAuthorName.Text);
+                if (dbcon.InsertUpdateData(localCmd))
+                {
+                    ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Thành công','Cập nhật thành công','success')", true);
+                    clrcontrol();
+                    BindRepeater();
+                    Autogenrate();
+                    btnAdd.Visible = true;
+                    btnupdate.Visible = false;
+                    btncancel.Visible = false;
+                }
+                else
+                {
+                    ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Lỗi','Lỗi! không thể cập nhật...vui lòng thử lại','error')", true);
+                }
             }
         }
 

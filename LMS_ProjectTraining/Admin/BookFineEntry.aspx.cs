@@ -35,10 +35,10 @@ namespace LMS_ProjectTraining.Admin
         }
         private void GetMemName(string mmid)
         {
-            cmd = new SqlCommand("sp_getMember_ByID", dbcon.GetCon());
+            cmd = new SqlCommand("sp_getMemberByID", dbcon.GetCon());
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Clear();
-            cmd.Parameters.AddWithValue("@ID", int.TryParse(mmid, out int mid) ? mid : 0);
+            cmd.Parameters.AddWithValue("@member_id", int.TryParse(mmid, out int mid) ? mid : 0);
             DataTable dtt = dbcon.Load_Data(cmd);
             if (dtt.Rows.Count >= 1)
             {

@@ -50,6 +50,7 @@
                         <table class="table table-bordered table-hover">
                             <thead class="alert-info">
                                 <tr>
+                                    <th>STT</th>
                                     <th><span><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_author_id") %></span> </th>
                                     <th><span><%= LMS_ProjectTraining.LanguageHelper.Get("lbl_author_name") %></span> </th>
                                     <th>&nbsp;</th>
@@ -59,6 +60,7 @@
                       </HeaderTemplate>
                     <ItemTemplate>
                        <tr> 
+                           <td><%# Container.ItemIndex + 1 %></td>
                            <td><%#Eval("author_id") %> </td>
                            <td><%#Eval("author_name") %> </td>
                            <td style="width:10%">
