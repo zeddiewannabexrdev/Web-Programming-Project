@@ -88,25 +88,22 @@ namespace LMS_ProjectTraining
         }
         public void Autogenrate()
         {
-            int r;
-            cmd = new SqlCommand("select max(member_id)as ID from member_master_tbl", dbcon.GetCon());
-            dbcon.OpenCon();
-            SqlDataReader dr = cmd.ExecuteReader();
-            if (dr.Read())
+            using (SqlCommand localCmd = new SqlCommand("select max(member_id) from member_master_tbl", dbcon.GetCon()))
             {
-                string d = dr[0].ToString();
-                if (d == "")
+                dbcon.OpenCon();
+                object result = localCmd.ExecuteScalar();
+                dbcon.CloseCon();
+
+                if (result == null || result == DBNull.Value)
                 {
                     txtMemberID.Text = "1001";
                 }
                 else
                 {
-                    r = Convert.ToInt32(dr[0].ToString());
-                    r = r + 1;
-                    txtMemberID.Text = r.ToString();
+                    int r = Convert.ToInt32(result);
+                    txtMemberID.Text = (r + 1).ToString();
                 }
             }
-            dbcon.CloseCon();
         }
         private void clrcontrol()
         {

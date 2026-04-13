@@ -234,27 +234,22 @@ namespace LMS_ProjectTraining.Admin
         }
         public void Autogenrate()
         {
-            int r;
-            cmd = new SqlCommand("select max(book_id)as ID from book_master_tbl", dbcon.GetCon());
-            dbcon.OpenCon();
-            SqlDataReader dr = cmd.ExecuteReader();
-            if (dr.Read())
+            using (SqlCommand localCmd = new SqlCommand("select max(book_id) from book_master_tbl", dbcon.GetCon()))
             {
-                string d = dr[0].ToString();
-                if (d == "")
+                dbcon.OpenCon();
+                object result = localCmd.ExecuteScalar();
+                dbcon.CloseCon();
+
+                if (result == null || result == DBNull.Value)
                 {
                     txtBookID.Text = "101";
                 }
                 else
                 {
-                    r = Convert.ToInt32(dr[0].ToString());
-                    r = r + 1;
-                    txtBookID.Text = r.ToString();
+                    int r = Convert.ToInt32(result);
+                    txtBookID.Text = (r + 1).ToString();
                 }
-                //txtBookID.ReadOnly = true;
-
             }
-            dbcon.CloseCon();
         }
         private void ClearControl()
         {
