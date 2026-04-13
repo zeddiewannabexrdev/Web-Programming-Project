@@ -3,6 +3,7 @@
 ## 📋 Mục lục
 
 1. [Tổng quan kiến trúc](#1-tổng-quan-kiến-trúc)
+   - [1.1 Kiến trúc khi triển khai (Deployment Architecture)](#11-kiến-trúc-khi-triển-khai-deployment-architecture)
 2. [Công nghệ sử dụng](#2-công-nghệ-sử-dụng)
 3. [Cấu trúc file ASP.NET Web Forms](#3-cấu-trúc-file-aspnet-web-forms)
 4. [Giải thích từng file](#4-giải-thích-từng-file)
@@ -14,6 +15,7 @@
    - [4.6 Trang User](#46-trang-user-cần-đăng-nhập-user)
 5. [Cơ sở dữ liệu](#5-cơ-sở-dữ-liệu)
 6. [Luồng hoạt động](#6-luồng-hoạt-động)
+7. [Hướng dẫn Deploy lên Somee.com](#7-hướng-dẫn-deploy-lên-someecom)
 
 ---
 
@@ -61,20 +63,57 @@ Dự án sử dụng kiến trúc **ASP.NET Web Forms** theo mô hình **3 lớp
 
 ---
 
+### 1.1 Kiến trúc khi triển khai (Deployment Architecture)
+
+Khi bạn đưa trang web này lên một máy chủ thực tế (Deploy) để người dùng khắp nơi có thể truy cập, mô hình hoạt động sẽ như sau:
+
+```mermaid
+graph TD
+    subgraph "External World"
+        User["💻 Trình duyệt Người dùng<br/>(Chrome, Edge, Mobile)"]
+    end
+
+    subgraph "Web Server (IIS / Cloud Platform)"
+        IIS["⚙️ IIS (Web Server)<br/>Hứng yêu cầu HTTP/HTTPS"]
+        DLL["📦 Compiled DLLs<br/>(LMS_ProjectTraining.dll)"]
+        Work["🧠 ASP.NET Worker Process<br/>Xử lý logic C#"]
+    end
+
+    subgraph "Database Server (SQL Server)"
+        DB["💾 SQL Server Database<br/>(Dữ liệu & Stored Procedures)"]
+    end
+
+    User -- "HTTPS Request" --> IIS
+    IIS -- "Load" --> DLL
+    DLL -- "Execute" --> Work
+    Work -- "ADO.NET Connection" --> DB
+    DB -- "Recordsets" --> Work
+    Work -- "Render HTML" --> User
+```
+
+**Các thành phần chính:**
+1.  **Client (Trình duyệt):** Gửi các yêu cầu (Request) lên Server qua giao thức HTTP/HTTPS. Giao diện lúc này chỉ là HTML/CSS/JS thuần túy.
+2.  **Web Server (IIS):** Tiếp nhận yêu cầu, tải các file đã được biên dịch (file `.dll` trong thư mục `bin`) và vận hành chúng.
+3.  **ASP.NET Worker Process:** Thực thi logic C# từ code-behind. Đây là nơi các Stored Procedures được gọi và dữ liệu được xử lý.
+4.  **Database Server:** Lưu trữ toàn bộ dữ liệu. Kết nối với Web Server thông qua **Connection String** trong `Web.config`.
+
+---
+
 ## 2. Công nghệ sử dụng
 
 | Công nghệ | Vai trò | Giải thích |
 |---|---|---|
-| **ASP.NET Web Forms** | Framework web | Framework server-side của Microsoft. Mỗi trang gồm file `.aspx` (giao diện HTML) và `.aspx.cs` (code C# xử lý logic) |
-| **C# (.NET 4.7.2)** | Ngôn ngữ server | Xử lý logic nghiệp vụ: đăng nhập, CRUD sách, mượn/trả sách |
-| **SQL Server Express** | Database | Lưu trữ dữ liệu: thành viên, sách, mượn/trả, tiền phạt |
-| **ADO.NET** | Truy cập DB | Thư viện .NET để kết nối và thao tác với SQL Server (SqlConnection, SqlCommand, SqlDataReader) |
-| **Bootstrap 4** | CSS Framework | Giao diện responsive: navbar, grid, card, form, button |
-| **jQuery 3.3.1** | JavaScript | Tương tác phía client, hỗ trợ Bootstrap |
-| **DataTables** | jQuery Plugin | Hiển thị bảng dữ liệu (GridView) có tìm kiếm, phân trang |
-| **Font Awesome** | Icon Library | Hiển thị các icon (Facebook, user, admin...) |
-| **SweetAlert** | Alert Library | Hiển thị popup thông báo đẹp thay vì alert() mặc định |
-| **IIS Express** | Web Server | Server phát triển tích hợp trong Visual Studio |
+| **ASP.NET Web Forms** | Framework chính | Framework nền tảng của Microsoft. Sử dụng mô hình xử lý Sự kiện (Event-driven) mạnh mẽ. |
+| **C# (.NET 4.7.2)** | Ngôn ngữ Backend | Xử lý toàn bộ logic nghiệp vụ, bảo mật và tương tác dữ liệu phía máy chủ. |
+| **SQL Server Express** | Cơ sở dữ liệu | Lưu trữ dữ liệu tập trung. Sử dụng **Stored Procedures** để tối ưu hóa hiệu suất và bảo mật. |
+| **ADO.NET** | Giao tiếp dữ liệu | Thư viện kết nối Database tiêu chuẩn (SqlConnection, SqlCommand, SqlDataAdapter). |
+| **Master Pages** | Quản lý Layout | Giúp đồng bộ giao diện (Header, Footer, Navbar) cho toàn bộ ứng dụng một cách chuyên nghiệp. |
+| **Bootstrap 4** | CSS Framework | Đảm bảo giao diện hiện đại, chuyên nghiệp và hiển thị tốt trên mọi thiết bị (Responsive). |
+| **jQuery 3.3.1** | Thư viện JS | Phụ trách các tương tác động phía trình duyệt và hỗ trợ các Plugin Frontend. |
+| **DataTables** | GridView nâng cao | Hỗ trợ tìm kiếm, phân trang và sắp xếp dữ liệu cực nhanh ngay trên giao diện người dùng. |
+| **Font Awesome 5** | Hệ thống Icon | Cung cấp bộ biểu tượng đồ họa chuyên nghiệp (User, Admin, Home...). |
+| **SweetAlert** | Thông báo popup | Thay thế các thông báo mặc định bằng các hộp thoại hiện đại, tinh tế và thân thiện. |
+| **IIS Express** | Web Server | Máy chủ chạy ứng dụng web tích hợp chuyên dùng cho quá trình phát triển dự án. |
 
 ---
 
@@ -1210,6 +1249,39 @@ Kiểm tra quyền (mỗi trang User):
 | `packages/` | NuGet packages đã tải (Microsoft.CodeDom.Providers.DotNetCompilerPlatform) |
 | `.vs/` | Visual Studio workspace settings (auto-generated) |
 | `Properties/` | Assembly info và project settings |
+
+---
+
+## 7. Hướng dẫn Deploy lên Somee.com
+
+Somee là một nhà cung cấp hosting miễn phí hỗ trợ tốt cho ASP.NET và SQL Server. Khi deploy dự án này lên Somee, bạn cần thực hiện các bước sau:
+
+### 7.1 Chuẩn bị Database
+1.  Đăng nhập vào Somee, tạo một **MS SQL Database** mới (phiên bản 2012 hoặc cao hơn).
+2.  Sử dụng công cụ **SQL Web Admin** của Somee hoặc **SSMS** để chạy file `setup_database.sql`.
+3.  **Lưu ý quan trọng:** Tên database trên Somee sẽ có tiền tố tên tài khoản của bạn (Ví dụ: `nguyenvana.ELibraryDB`). Hãy lưu ý điểm này để điền vào Connection String.
+
+### 7.2 Cập nhật Web.config (Cực kỳ quan trọng)
+Bạn cần thay thế nội dung trong thẻ `<connectionStrings>` từ cấu hình Local sang thông số Somee cung cấp:
+
+```xml
+<connectionStrings>
+    <!-- Ví dụ mẫu Chuỗi kết nối của Somee -->
+    <add name="con" connectionString="workstation id=yourDBname.mssql.somee.com;packet size=4096;user id=your_user_id;pwd=your_password;data source=yourDBname.mssql.somee.com;persist security info=False;initial catalog=yourDBname" providerName="System.Data.SqlClient" />
+</connectionStrings>
+```
+
+### 7.3 Phân quyền cho thư mục Ảnh
+Khi chạy trên Hosting, thư mục `book_img` cần có quyền **Write** (Ghi) để Admin có thể thêm ảnh mới cho sách.
+*   Vào **File Manager** trên bảng điều khiển của Somee.
+*   Tìm thư mục `book_img`.
+*   Click vào **Permissions** và đảm bảo quyền **Write** được kích hoạt.
+
+### 7.4 Khắc phục lỗi bảo mật (Trust Level)
+Một số server hosting có thể chặn các hoạt động chuyên sâu. Nếu gặp lỗi, hãy thêm dòng này vào trong thẻ `<system.web>` của `Web.config`:
+```xml
+<trust level="Full" />
+```
 
 ---
 
