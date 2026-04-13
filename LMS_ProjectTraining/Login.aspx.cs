@@ -19,58 +19,54 @@ namespace LMS_ProjectTraining
         protected void btnLogin_Click(object sender, EventArgs e)
         {
             //for member login
-            SqlCommand cmd = new SqlCommand("sp_UserLogin", dbcon.GetCon());
-            dbcon.OpenCon();
-            cmd.CommandType=System.Data.CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@member_id", int.TryParse(txtMemberID.Text.Trim(), out int mid) ? mid : 0);
-            cmd.Parameters.AddWithValue("@password", txtPassword.Text.Trim());
-            SqlDataReader dr=cmd.ExecuteReader();   
-            if(dr.HasRows)
+            using (SqlCommand localCmd = new SqlCommand("sp_UserLogin", dbcon.GetCon()))
             {
-                while(dr.Read())
-                {
-                    Response.Write("<script> alert('\u0110\u0103ng nh\u1eadp th\u00e0nh c\u00f4ng');</script>");
-                    Session["role"] = "user";
-                    Session["fullname"] = dr.GetValue(0).ToString();
-                    Session["username"] = dr.GetValue(1).ToString();
-                    Session["status"] = dr.GetValue(3).ToString();
-                    Session["mid"] = txtMemberID.Text;
-                }
-                Response.Redirect("~/UserScreen/UserHome.aspx");
-            }
-            else
-            {
+                localCmd.CommandType = System.Data.CommandType.StoredProcedure;
+                localCmd.Parameters.AddWithValue("@member_id", int.TryParse(txtMemberID.Text.Trim(), out int mid) ? mid : 0);
+                localCmd.Parameters.AddWithValue("@password", txtPassword.Text.Trim());
                 
-                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('L\u1ed7i','L\u1ed7i! Th\u00f4ng tin \u0111\u0103ng nh\u1eadp kh\u00f4ng h\u1ee3p l\u1ec7','error')", true);
+                DataTable dt = dbcon.Load_Data(localCmd);
+                if (dt.Rows.Count > 0)
+                {
+                    DataRow dr = dt.Rows[0];
+                    Session["role"] = "user";
+                    Session["fullname"] = dr["full_name"].ToString();
+                    Session["username"] = dr["full_name"].ToString(); // Consistent with original
+                    Session["status"] = dr["account_status"].ToString();
+                    Session["mid"] = txtMemberID.Text;
+                    
+                    Response.Redirect("~/UserScreen/UserHome.aspx");
+                }
+                else
+                {
+                    ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Lỗi', 'Lỗi! Thông tin đăng nhập không hợp lệ', 'error')", true);
+                }
             }
         }
 
         protected void btnAdminLogin_Click(object sender, EventArgs e)
         {
             //Admin Login button
-            SqlCommand cmd = new SqlCommand("sp_AdminLogin", dbcon.GetCon());
-            dbcon.OpenCon();
-            cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@username", txtAdminID.Text.Trim());
-            cmd.Parameters.AddWithValue("@password", txtAdminPass.Text.Trim());
-            SqlDataReader dr = cmd.ExecuteReader();
-            if (dr.HasRows)
+            using (SqlCommand localCmd = new SqlCommand("sp_AdminLogin", dbcon.GetCon()))
             {
-                while (dr.Read())
+                localCmd.CommandType = System.Data.CommandType.StoredProcedure;
+                localCmd.Parameters.AddWithValue("@username", txtAdminID.Text.Trim());
+                localCmd.Parameters.AddWithValue("@password", txtAdminPass.Text.Trim());
+                
+                DataTable dt = dbcon.Load_Data(localCmd);
+                if (dt.Rows.Count > 0)
                 {
-                    
-                    ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Success','\u0110\u0103ng nh\u1eadp th\u00e0nh c\u00f4ng','success')", true);
+                    DataRow dr = dt.Rows[0];
                     Session["Adminrole"] = "Admin";
-                    Session["Adminusername"] = dr.GetValue(0).ToString();
-                    Session["Adminfullname"] = dr.GetValue(2).ToString();
-                   
-                    //Session["status"] = dr.GetValue(3).ToString();
+                    Session["Adminusername"] = dr["username"].ToString();
+                    Session["Adminfullname"] = dr["full_name"].ToString();
+                    
+                    Response.Redirect("~/Admin/AdminHome.aspx");
                 }
-                Response.Redirect("~/Admin/AdminHome.aspx");
-            }
-            else
-            {                
-                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('L\u1ed7i','Th\u00f4ng tin \u0111\u0103ng nh\u1eadp kh\u00f4ng h\u1ee3p l\u1ec7','error')", true);
+                else
+                {
+                    ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Lỗi', 'Thông tin đăng nhập không hợp lệ', 'error')", true);
+                }
             }
         }
     }

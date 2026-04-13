@@ -60,30 +60,29 @@ namespace LMS_ProjectTraining.Admin
 
         private void Search_memberRecord()
         {
-            cmd = new SqlCommand("sp_getMemberByID", dbcon.GetCon());
-            cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@member_id", int.TryParse(txtMemberID.Text.Trim(), out int mid) ? mid : 0);
-            dbcon.OpenCon();
-            SqlDataReader dr = cmd.ExecuteReader();
-            if (dr.HasRows)
+            using (SqlCommand localCmd = new SqlCommand("sp_getMemberByID", dbcon.GetCon()))
             {
-                while (dr.Read())
+                localCmd.CommandType = CommandType.StoredProcedure;
+                localCmd.Parameters.AddWithValue("@member_id", int.TryParse(txtMemberID.Text.Trim(), out int mid) ? mid : 0);
+                
+                DataTable dt = dbcon.Load_Data(localCmd);
+                if (dt.Rows.Count > 0)
                 {
-                    txtFullName.Text = dr.GetValue(0).ToString();
-                    txtDOB.Text = dr.GetValue(1).ToString();
-                    txtContactNO.Text = dr.GetValue(2).ToString();
-                    txtEmail.Text = dr.GetValue(3).ToString();
-                    ddlState.SelectedValue = dr.GetValue(4).ToString();
-                    txtCity.Text = dr.GetValue(5).ToString();
-                    txtPIN.Text = dr.GetValue(6).ToString();
-                    txtAddress.Text = dr.GetValue(7).ToString();
+                    DataRow dr = dt.Rows[0];
+                    txtFullName.Text = dr["full_name"].ToString();
+                    txtDOB.Text = dr["dob"].ToString();
+                    txtContactNO.Text = dr["contact_no"].ToString();
+                    txtEmail.Text = dr["email"].ToString();
+                    ddlState.SelectedValue = dr["state"].ToString();
+                    txtCity.Text = dr["city"].ToString();
+                    txtPIN.Text = dr["pincode"].ToString();
+                    txtAddress.Text = dr["full_address"].ToString();
+                }
+                else
+                {
+                    ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('Lỗi', 'Không tìm thấy bản ghi... vui lòng thử lại', 'error')", true);
                 }
             }
-            else
-            {
-                ClientScript.RegisterClientScriptBlock(this.GetType(), "alert", "swal('L\u1ed7i','Kh\u00f4ng t\u00ecm th\u1ea5y b\u1ea3n ghi...vui l\u00f2ng th\u1eed l\u1ea1i','error')", true);
-            }
-            dbcon.CloseCon();
         }
 
         protected void BtnActiveMember_Click(object sender, EventArgs e)
